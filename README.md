@@ -7,7 +7,8 @@ Virtual Environment Notes:
     
     This will allow us to maintain version control of packages between computers.
     
-    Also ensure if you add any new packages, you need to check git status for all the new folders/files, then git add them before committing to the master. Otherwise how will we know a new package exists ;)
+    Also ensure if you add any new packages, you need to check git status for all the new folders/files,
+    then git add them before committing to the master. Otherwise how will we know a new package exists ;)
     
     When you start, always git pull/fetch to update and git push when you are done.
 
@@ -32,4 +33,5 @@ Marks are earnt as follows:
         - Top 5 teams will get full mark.
     Bonus: 4 marks.
 
-    Focus your energy on ensuring we nail this criteria before attacking the bonus, top5 for prediction isn't unrealisitic!
+    Focus your energy on ensuring we nail this criteria before attacking the bonus, 
+    top5 for prediction isn't unrealisitic!
