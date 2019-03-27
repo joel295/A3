@@ -3,10 +3,10 @@ import pandas
 
 # class to perform database operations
 
-class database:
+class server_database:
     # init class
     def __init__(self):
-        self.database_name = 'database.db'
+        self.database_name = 'server.db'
         try:
             conn = sqlite3.connect(self.database_name)
             self.create_table(conn)
