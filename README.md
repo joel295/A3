@@ -16,7 +16,7 @@ When you start, always git pull/fetch to update and git push when you are done.
 -----------
 Potential design branches:
 
-        1) Data parse/clean branch
+        1) Data parse/clean branch/database management
         2) ML/NN prediction branch
         3) Data visualisation branch
         4) Framework/FrontEnd/UI design Branch 
