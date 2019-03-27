@@ -99,7 +99,7 @@ class server_database:
         #convert appropriate columns to integers - sorry about magic numbers
         df.iloc[:,[0,1,2,5,6,8,10,11,12,13]] = df.iloc[:,[0,1,2,5,6,8,10,11,12,13]].apply(pandas.to_numeric, downcast='integer')
         
-        # put tuples into rows, types converted from numpy variants to standard python types
+        # put tuples into rows, types converted from numpy variants to standard python types - did this to avoid sqlite3 throwing data integrity error
         # index from dataframe being used as primary key
         rows = [tuple(x) for x in df.to_records(index=True).tolist()]
         
