@@ -11,7 +11,9 @@ This will allow us to maintain version control of packages between computers.
 Also ensure if you add any new packages, you need to check git status for all the new folders/files,
 then git add them before committing to the master. Otherwise how will we know a new package exists ;)
     
-When you start, always git pull/fetch to update and git push when you are done.
+When you start, always git pullto update and git push when you are done.
+
+If you are in a branch, ensure you use git fetch.
 
 -----------
 Potential design branches:
