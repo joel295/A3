@@ -85,6 +85,15 @@ class server_database:
     def import_data(self, data):
         conn = sqlite3.connect(self.database_name)
         c = conn.cursor()
+
+        ### TO DO ###
+        #get csv data
+
+        # clean the data
+
+        # put into rows
+
+        ###
         rows = []
         c.executemany("INSERT INTO Heart VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", rows)
         conn.commit()
