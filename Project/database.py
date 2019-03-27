@@ -33,7 +33,7 @@ class server_database:
                                                 Oldpeak REAL NOT NULL, \
                                                     Slope INTEGER NOT NULL, \
                                                         Major_Vessels INTEGER NOT NULL, \
-                                                            Thal INTERGER NOT NULL, \
+                                                            Thal INTEGER NOT NULL, \
                                                                 Target INTEGER NOT NULL)'
         c.execute(sql)
         return
