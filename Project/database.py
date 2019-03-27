@@ -19,9 +19,10 @@ class server_database:
     
     # Database operations here
     def create_table(self,conn):
+        #conn = sqlite3.connect(self.database_name)
         c = conn.cursor()
         sql = 'CREATE TABLE IF NOT EXISTS Heart (ID INTEGER PRIMARY KEY, \
-            Age Integer NOT NULL, \
+            Age INTEGER NOT NULL, \
                 Sex INTEGER NOT NULL, \
                     Chest_Pain_Type INTEGER NOT NULL,\
                         RBP REAL NOT NULL, \
@@ -82,22 +83,31 @@ class server_database:
         conn.close()
     
     # Import/clean operations
-    def import_data(self, data):
+    def import_data(self, data='processed.cleveland_no_headers.csv'):
         conn = sqlite3.connect(self.database_name)
         c = conn.cursor()
 
-        ### TO DO ###
         #get csv data
-
+        missing_values = ['?']
+        df = pandas.read_csv(data, na_values = missing_values)
+        
         # clean the data
-
-        # put into rows
-
+        df = df.dropna() # this will be fixed, planning on imputing data for any NaN values in real type columns
+        
+        #df.columns = ['Age', 'Sex', 'Chest_Pain_Type', 'RBP', 'Serum_Chol', 'Fast_Blood_Sugar', 'Resting_ECG', 'Max_Heart_Rate', 'EI_Angina', 'Oldpeak', 'Slope', 'Major_Vessels', 'Thal', 'Target']
+        #desired column data types: [int, int, int, real, real, int, int, real, int, real, int, int, int, int]
+        #convert appropriate columns to integers - sorry about magic numbers
+        df.iloc[:,[0,1,2,5,6,8,10,11,12,13]] = df.iloc[:,[0,1,2,5,6,8,10,11,12,13]].apply(pandas.to_numeric, downcast='integer')
+        
+        # put tuples into rows, types converted from numpy variants to standard python types
+        # index from dataframe being used as primary key
+        rows = [tuple(x) for x in df.to_records(index=True).tolist()]
+        
         ###
-        rows = []
         c.executemany("INSERT INTO Heart VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", rows)
         conn.commit()
         conn.close()
 
 # Test area
 db = server_database()
+db.import_data()
