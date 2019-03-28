@@ -4,6 +4,7 @@
 '''
 
 import torch
+import torch.optim as optim
 import torch.nn as nn
 import pandas as pd
 import numpy as np
@@ -13,6 +14,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score
+
 
 def pcaStuff():
     labels = ['age', 'sex', 'chest_pain_type', 'resting_blood_pressure', 'serum_cholesterol', 'fasting_blood_sugar', 'resting_electro', 'max_heart_rate', 'exercise_angina', 'oldpeak', 'slope_of_peak', 'no_of_colored_vessels', 'thal', 'target']
@@ -105,9 +107,9 @@ def pcaStuff2():
             y_pred = classifier.predict(X_test)
 
             cm = confusion_matrix(y_test, y_pred)
-            print(cm)
-            print(accuracy_score(y_test, y_pred))
-            print(y_pred)
+            #print(cm)
+            #print(accuracy_score(y_test, y_pred))
+            #print(y_pred)
             accuracy.append(accuracy_score(y_test, y_pred))
             xaxis.append(j+1)
         plt.plot(xaxis,accuracy)
@@ -119,22 +121,19 @@ def pcaStuff2():
     plt.legend(legendlabels,loc='upper center',ncol=4,bbox_to_anchor=[0.5, 1.15])
     plt.show()
 
-pcaStuff2()
-
-
 def allPlots():
     labels = ['age', 'sex', 'chest_pain_type', 'resting_blood_pressure', 'serum_cholesterol', 'fasting_blood_sugar', 'resting_electro', 'max_heart_rate', 'exercise_angina', 'oldpeak', 'slope_of_peak', 'no_of_colored_vessels', 'thal', 'target']
     data = pd.read_csv("Project/data.csv", names=labels)
     data = data.replace('?', pd.np.nan).dropna()
-    data['thal'] = np.where(data.thal == '7.0', 'Reversible Defect', data.thal)
+    '''data['thal'] = np.where(data.thal == '7.0', 'Reversible Defect', data.thal)
     data['thal'] = np.where(data.thal == '6.0', 'Fixed Defect', data.thal)
     data['thal'] = np.where(data.thal == '3.0', 'Normal', data.thal)
-
+    '''
 
     hdColorMap = {1:'red', 0:'green'}
     hdLabelMap = {1:'Heart Disease', 0:'No Heart Disease'}
     thalColorMap = {3.0:'green', 6.0:'yellow',7.0:'red'}
-    thalLabelMap = {3.0:'Normal', 6.0: 'Fixed Defect', 7.0: 'Reversible Defect'}
+    thalLabelMap = {3:'Normal', 6: 'Fixed Defect', 7: 'Reversible Defect'}
     fig = plt.figure()
     scaler = StandardScaler()
 
@@ -159,3 +158,107 @@ def allPlots():
     plt.xlabel("\t".join(labels[:9]),horizontalalignment='center')
     plt.show()
 
+def pytorchTest():
+    x = torch.ones(2,2, requires_grad=True)
+    print(x)
+
+    y = x + 2
+    print(y)
+
+    z = y*y*3
+    out = z.mean()
+    print(z,out)
+
+    a = torch.randn(2,2)
+    a = ((a*3)/(a-1))
+    #print(a.requires_grad)
+    a.requires_grad_(True)
+    #print(a.requires_grad)
+    b = (a*a).sum()
+    #print(b.grad_fn)
+    #print(b)
+
+    out.backward()
+    print(x.grad)
+
+def neuralNetworkLearning():
+
+    labels = ['age', 'sex', 'chest_pain_type', 'resting_blood_pressure', 'serum_cholesterol', 'fasting_blood_sugar', 'resting_electro', 'max_heart_rate', 'exercise_angina', 'oldpeak', 'slope_of_peak', 'no_of_colored_vessels', 'thal', 'target']
+    data = pd.read_csv("Project/data.csv", names=labels)
+    data = data.replace('?', pd.np.nan).dropna()
+    data['target'] = np.where(data.target == 0, 0, 1)
+
+    yArr = np.array(data['target']).astype('int')
+   
+    scaler = MinMaxScaler()
+
+    numpyYTest = yArr[:50]
+    numpyYTrain = yArr[50:]
+    y = torch.tensor(numpyYTrain, dtype=torch.long)
+    yTest = torch.tensor(numpyYTest, dtype=torch.long)
+    data = data.drop(['target','sex', 'chest_pain_type', 'fasting_blood_sugar', 'resting_electro'], axis=1)
+
+    numpy_data = scaler.fit_transform(np.array(data).astype('float'))
+    print(numpy_data)
+
+    X = torch.Tensor(numpy_data[50:])
+    XTest = torch.Tensor(numpy_data[:50])
+   
+    #N is number of samples, F_in is number of features
+    #H is hidden dimensions, F_out is output features (1 the heart diesease),
+    N, F_in, H1, H2, H3,  F_out = len(y), 9, 100, 9, 7, 2
+    
+    
+    #learningRate = 0.01
+    for s in range(1):
+        dataModel = nn.Sequential(
+            nn.Linear(F_in, H1),
+            nn.ReLU(),
+            nn.Linear(H1, H2),
+            nn.ReLU(),
+            nn.Linear(H2, F_out),
+            nn.LogSoftmax(dim=1)
+        )
+
+        optimizer = optim.SGD(dataModel.parameters(), lr=0.01, momentum=0.9)
+        criterion = nn.NLLLoss()
+        accuracyList = []
+        for t in range(1000):
+            optimizer.zero_grad()
+
+            y_pred = dataModel(X)
+
+            loss = criterion(y_pred, y)
+            print("{}: {} {}".format(s,t, loss.item()))
+
+            loss.backward()
+            optimizer.step()
+
+            '''with torch.no_grad():
+                for param in dataModel.parameters():
+                    param -= learningRate * param.grad'''
+
+            y_pred = dataModel(XTest)
+            predicted = y_pred.detach().numpy()
+            predicted = [np.argmax(x) for x in predicted]
+            loss = criterion(y_pred, yTest)
+            #print('Unseen Data Loss = {}'.format(loss.item()))
+
+            #predicted = np.reshape(predicted, (1,50))[0]
+            matches = np.where(predicted==numpyYTest,1,0)
+            correctness = np.count_nonzero(matches)/len(matches)*100
+            accuracyList.append(correctness)
+
+        print(predicted)
+        print(numpyYTest)
+        print(matches)
+        print("Model Accuracy: {}%".format(correctness))
+        print("{}: Most Accurate at t={}".format(s,np.argmax(accuracyList)))
+        plt.plot(accuracyList)
+
+    plt.xlabel("Training Count")
+    plt.ylabel("Model Accuracy (%)")
+    plt.show()
+    
+#allPlots()
+neuralNetworkLearning()
