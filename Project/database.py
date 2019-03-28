@@ -5,11 +5,12 @@ import pandas
 
 class server_database:
     # init class
-    def __init__(self):
-        self.database_name = 'server.db'
+    def __init__(self, db_name='server.db'):
+        self.database_name = db_name
         try:
             conn = sqlite3.connect(self.database_name)
-            self.create_table(conn)
+            # no point regenerating this every time you boot during dev, commenting out for now
+            #self.create_table(conn)
         except sqlite3.Error as e:
             print(e)
         finally:
@@ -18,8 +19,8 @@ class server_database:
         return
     
     # Database operations here
-    def create_table(self,conn):
-        #conn = sqlite3.connect(self.database_name)
+    def create_table(self):#, conn):    #fix on deploy
+        conn = sqlite3.connect(self.database_name)  # remove on deploy
         c = conn.cursor()
         sql = 'CREATE TABLE IF NOT EXISTS Heart (ID INTEGER PRIMARY KEY, \
             Age INTEGER NOT NULL, \
@@ -37,6 +38,8 @@ class server_database:
                                                             Thal INTEGER NOT NULL, \
                                                                 Target INTEGER NOT NULL)'
         c.execute(sql)
+        conn.commit()   # remove when deploy
+        conn.close()    # remove when deploy
         return
 
     def insert_row(self, row):
@@ -109,5 +112,16 @@ class server_database:
         conn.close()
 
 # Test area
+# Uncomment if you need to run this script
+'''
+To access functions with this class:
+    1) in your header -> 'from database import *' (python should check the local directory for this first)
+    2) setup an object by running <object> = server_database()
+    3) run <object>.create_table() if you need a new db copy, otherwise the init will assume you have a copy in the working directory
+'''
+
+'''
 db = server_database()
+db.create_table()
 db.import_data()
+'''
