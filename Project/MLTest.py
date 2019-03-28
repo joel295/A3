@@ -125,10 +125,10 @@ def allPlots():
     labels = ['age', 'sex', 'chest_pain_type', 'resting_blood_pressure', 'serum_cholesterol', 'fasting_blood_sugar', 'resting_electro', 'max_heart_rate', 'exercise_angina', 'oldpeak', 'slope_of_peak', 'no_of_colored_vessels', 'thal', 'target']
     data = pd.read_csv("Project/data.csv", names=labels)
     data = data.replace('?', pd.np.nan).dropna()
-    data['thal'] = np.where(data.thal == '7.0', 'Reversible Defect', data.thal)
+    '''data['thal'] = np.where(data.thal == '7.0', 'Reversible Defect', data.thal)
     data['thal'] = np.where(data.thal == '6.0', 'Fixed Defect', data.thal)
     data['thal'] = np.where(data.thal == '3.0', 'Normal', data.thal)
-
+    '''
 
     hdColorMap = {1:'red', 0:'green'}
     hdLabelMap = {1:'Heart Disease', 0:'No Heart Disease'}
