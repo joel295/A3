@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Visualisations{% endblock %}
+
+{% block sidebar %}
+<li {%- if request.path == "/" %} class="active"{% endif %}><a href="/">Home</a></li>
+<li {%- if request.path == "/graph1" %} class="active"{% endif %}><a href="/graph1">Age</a></li>
+<li {%- if request.path == "/graph2" %} class="active"{% endif %}><a href="/graph2">Sex</a></li>
+<li {%- if request.path == "/graph3" %} class="active"{% endif %}><a href="/graph3">Chest Pain Type</a></li>
+<li {%- if request.path == "/graph4" %} class="active"{% endif %}><a href="/graph4">Resting Blood Pressure</a></li>
+<li {%- if request.path == "/graph5" %} class="active"{% endif %}><a href="/graph5">Serum Cholestrol</a></li>
+<li {%- if request.path == "/graph6" %} class="active"{% endif %}><a href="/graph6">Fasting Blood Sugar</a></li>
+<li {%- if request.path == "/graph7" %} class="active"{% endif %}><a href="/graph7">Resting ECG Results</a></li>
+<li {%- if request.path == "/graph8" %} class="active"{% endif %}><a href="/graph8">Max. Heart Rate</a></li>
+<li {%- if request.path == "/graph9" %} class="active"{% endif %}><a href="/graph9">Exercise Induced Angina</a></li>
+<li {%- if request.path == "/graph10" %} class="active"{% endif %}><a href="/graph10">oldpeak</a></li>
+<li {%- if request.path == "/graph11" %} class="active"{% endif %}><a href="/graph11">Peak Exercise ST slope</a></li>
+<li {%- if request.path == "/graph12" %} class="active"{% endif %}><a href="/graph12">Major vessels by flourosopy</a></li>
+<li {%- if request.path == "/graph13" %} class="active"{% endif %}><a href="/graph13">thal</a></li>
+<li {%- if request.path == "/graph14" %} class="active"{% endif %}><a href="/graph14">target</a></li>
+{% endblock %}
+
+{% block content %}
+    <h2>Welcome to our visualisations!</h2>
+    <h4>Choose a view on the left to explore</h4>
+{% endblock %}
