@@ -11,5 +11,34 @@
 {% endblock %}
 
 {% block content %}
-    <p>Page area for visualising potential import factors!</p>
+<body>
+    <div class="text-center">
+            <h2>Check this graph out yo</h2>
+        <img class="img-fluid" src="static/images/test.png" alt="test">
+    </div>
+    <div class="container">
+    <h2>Classification of Factors</h2>
+    <p>What columns do we want?</p>            
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <th>Factor</th>
+            <th>Score 1</th>
+            <th>Score 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in table %}
+            <tr>
+                {% for value in row %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>
+
 {% endblock %}

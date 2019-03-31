@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, abort
-from server_helper import graph_dict
+from server_helper import graph_dict, test_list
+import io
 
 def server():
     app = Flask(__name__)
@@ -35,7 +36,10 @@ def graph(number=None):
 
 @server.route('/factors')
 def factors():
-    return render_template("factors.html")
+    # Look just edit this function in helper and you can build your table
+    # Ensure the headers defined in factors.html are set if more columns added
+    table = test_list()
+    return render_template("factors.html", table=table)
 
 @server.route('/predictor')
 def predictor():
