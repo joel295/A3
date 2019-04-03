@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}{something} Predictor{% endblock %}
+
+{% block sidebar %}
+<li {%- if request.path == "/" %} class="active"{% endif %}><a href="/">Home</a></li>
+<li {%- if request.path == "/graph" %} class="active"{% endif %}><a href="/graph">Data Visualisation</a></li>
+<li {%- if request.path == "/factors" %} class="active"{% endif %}><a href="/factors">Potential Important Factors</a></li>
+<li {%- if request.path == "/predictor" %} class="active"{% endif %}><a href="/predictor">Predicting {what is our track}</a></li>
+<li {%- if request.path == "/other" %} class="active"{% endif %}><a href="/other">Other Stuff/Ideas</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>Predicting {insert track here}</h2>
+<p>Complete the form below to predict {insert track here}.
+</p>
+<fieldset class="scheduler-border">
+  <legend class="scheduler-border"></legend>
+  <form action="/predictor" method="post">
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+        <label for="age">Age</label>
+        <input type="text" class="form-control" name="age" id="age" placeholder="Age" required>
+      </div>
+      <div class="form-group col-xs-6">
+          <label for="sex">Sex</label>
+          <select id="sex" class="form-control" name="sex" placeholder="Sex" required>
+            <option>Female</option>
+            <option>Male</option>
+          </select>
+      </div>    
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+        <label for="chest_pain_type">Chest Pain Type</label>
+        <select id="chest_pain_type" class="form-control" name="chest_pain_type" placeholder="Chest Pain Type" required>
+          <option>Typical Angina</option>
+          <option>Atypical Angina</option>
+          <option>Non-Anginal</option>
+          <option>Asymptomatic</option>
+        </select>
+      </div>
+      <div class="form-group col-xs-6">
+        <label for="resting_blood_pressure">Resting Blood Pressure</label>
+        <input type="text" class="form-control" name="resting_blood_pressure" id="resting_blood_pressure" placeholder="Resting Blood Pressure" required>
+      </div>
+    </div> 
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+        <label for="serum_cholestoral">Serum Cholestoral</label>
+        <input type="text" class="form-control" name="serum_cholestoral" id="serum_cholestoral" placeholder="Serum cholestoral in mg/dl" required>
+      </div>
+      <div class="form-group col-xs-6">
+          <label for="fasting_bs">Is Fasting Blood Sugar Over 120 mg/dl</label>
+          <select id="fasting_bs" name="fasting_bs" class="form-control" placeholder="Is Fasting Blood Sugar Over 120 mg/dl" required>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+        <label for="resting_ecg">Resting ECG Results</label>
+        <select id="resting_ecg" name="resting_ecg" class="form-control" placeholder="Resting ECG Results" required>
+          <option>Normal</option>
+          <option>Having ST-T wave abnormality</option>
+          <option>Showing Probable or Definite Left</option>
+          <option>Ventricular Hypertrophy by Estes’ Criteria)</option>
+        </select>
+      </div>
+      <div class="form-group col-xs-6">
+        <label for="max_heart">Maximum Heart Rate</label>
+        <input type="text" name="max_heart" class="form-control" id="max_heart" placeholder="Maximum Heart Rate Achieved" required>
+      </div>
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+        <div class="form-group col-xs-6">
+            <label for="ei_angina">Do you have exercised induced angina?</label>
+            <select id="ei_angina" name="fasting_bs" class="form-control" placeholder="Do you have exercised induced angina?" required>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+      <div class="form-group col-xs-6">
+        <label for="oldpeak">Oldpeak</label>
+        <input type="text" name="oldpeak" class="form-control" id="oldpeak" placeholder=" = ST depression induced by exercise relative to rest" required>
+      </div>
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+          <label for="peak_est">What is the slope of the peak exercise ST segment?</label>
+          <select id="peak_est" name="peak_est" class="form-control" placeholder="What is the slope of the peak exercise ST segment?" required>
+            <option>Upsloping</option>
+            <option>Flat</option>
+            <option>Downsloping</option>
+          </select>
+        </div>
+      <div class="form-group col-xs-6">
+        <label for="colours">Number of Major Vessels Coloured by Flourosopy</label>
+        <select id="colours" name="colours" class="form-control" placeholder="Number of Major Vessels Coloured by Flourosopy" required>
+          <option>0</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+        </select>
+      </div>
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-12">
+          <label for="thal">Thalassemia</label>
+          <select id="thal" name="thal" class="form-control" placeholder="Thalassemia" required>
+            <option>3 - Normal</option>
+            <option>6 - Fixed Defect</option>
+            <option>7 - Reversible Defect</option>
+          </select>
+      </div>
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+       <div class="form-group col">
+          <button class="btn pull-left btn-primary btn-lg" type="submit">Predict!</button>
+        </div>
+        <div class="form-group col">
+          <button class="btn pull-right btn-danger btn-lg" type="reset">Reset Form</button>
+        </div>
+      </div>
+  </form>
+</fieldset>
+{% endblock %}

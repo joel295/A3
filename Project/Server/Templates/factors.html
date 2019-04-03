@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Potential Important Factors{% endblock %}
+
+{% block sidebar %}
+<li {%- if request.path == "/" %} class="active"{% endif %}><a href="/">Home</a></li>
+<li {%- if request.path == "/graph" %} class="active"{% endif %}><a href="/graph">Data Visualisation</a></li>
+<li {%- if request.path == "/factors" %} class="active"{% endif %}><a href="/factors">Potential Important Factors</a></li>
+<li {%- if request.path == "/predictor" %} class="active"{% endif %}><a href="/predictor">Predicting {what is our track}</a></li>
+<li {%- if request.path == "/other" %} class="active"{% endif %}><a href="/other">Other Stuff/Ideas</a></li>
+{% endblock %}
+
+{% block content %}
+<body>
+    <h2>Check this graph out yo</h2>
+    <img src="static/images/test.png" alt="test" class="img-responsive center-block">
+    <div class="container">
+    <h2>Classification of Factors</h2>
+    <p>What columns do we want?</p>            
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <th>Factor</th>
+            <th>Rank</th>
+            <th>Score/Why?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in table %}
+            <tr>
+                {% for value in row %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>
+
+{% endblock %}
