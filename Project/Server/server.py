@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, abort
-from server_helper import graph_dict, test_list
+from server_helper import graph_dict, test_list, validate_function
 import io
 
 def server():
@@ -41,8 +41,15 @@ def factors():
     table = test_list()
     return render_template("factors.html", table=table)
 
-@server.route('/predictor')
+@server.route('/predictor', methods=['GET', 'POST'])
 def predictor():
+    if request.method == 'POST':
+        result = request.form # i am a string dict, print me out to see my keys and values
+        error = validate_function(result)
+        if error:
+            return render_template("incorrect_input.html", error=error)
+        else:
+            return render_template("predict_result.html")
     return render_template("predictor.html")
 
 @server.route('/other')

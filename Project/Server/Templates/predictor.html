@@ -11,74 +11,131 @@
 {% endblock %}
 
 {% block content %}
-<h2>This is a header</h2>
-<p>Welcome, complete the following input to get the prediction!
-    Look, at what I can accept!
+<h2>Predicting {insert track here}</h2>
+<p>Complete the form below to predict {insert track here}.
 </p>
-<br>
-<form>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputPassword4">Password</label>
-            <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-          </div>
+<fieldset class="scheduler-border">
+  <legend class="scheduler-border"></legend>
+  <form action="/predictor" method="post">
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+        <label for="age">Age</label>
+        <input type="text" class="form-control" name="age" id="age" placeholder="Age" required>
+      </div>
+      <div class="form-group col-xs-6">
+          <label for="sex">Sex</label>
+          <select id="sex" class="form-control" name="sex" placeholder="Sex" required>
+            <option>Female</option>
+            <option>Male</option>
+          </select>
+      </div>    
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+        <label for="chest_pain_type">Chest Pain Type</label>
+        <select id="chest_pain_type" class="form-control" name="chest_pain_type" placeholder="Chest Pain Type" required>
+          <option>Typical Angina</option>
+          <option>Atypical Angina</option>
+          <option>Non-Anginal</option>
+          <option>Asymptomatic</option>
+        </select>
+      </div>
+      <div class="form-group col-xs-6">
+        <label for="resting_blood_pressure">Resting Blood Pressure</label>
+        <input type="text" class="form-control" name="resting_blood_pressure" id="resting_blood_pressure" placeholder="Resting Blood Pressure" required>
+      </div>
+    </div> 
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+        <label for="serum_cholestoral">Serum Cholestoral</label>
+        <input type="text" class="form-control" name="serum_cholestoral" id="serum_cholestoral" placeholder="Serum cholestoral in mg/dl" required>
+      </div>
+      <div class="form-group col-xs-6">
+        <label for="fasting_blood_sugar">Fasting Blood Sugar</label>
+        <input type="text" class="form-control" name="fasting_blood_sugar" id="fasting_blood_sugar" placeholder="Fasting blood sugar > 120 mg/dl" required>
+      </div>
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+        <label for="resting_ecg">Resting ECG Results</label>
+        <select id="resting_ecg" name="resting_ecg" class="form-control" placeholder="Resting ECG Results" required>
+          <option>Normal</option>
+          <option>Having ST-T wave abnormality</option>
+          <option>Showing Probable or Definite Left</option>
+          <option>Ventricular Hypertrophy by Estes’ Criteria)</option>
+        </select>
+      </div>
+      <div class="form-group col-xs-6">
+        <label for="max_heart">Maximum Heart Rate</label>
+        <input type="text" name="max_heart" class="form-control" id="max_heart" placeholder="Maximum Heart Rate Achieved" required>
+      </div>
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+        <label for="ei_angina">Exercise Induced Angina</label>
+        <input type="text" name="ei_angina" class="form-control" id="ei_angina" placeholder="Exercise Induced Angina" required>
+      </div>
+      <div class="form-group col-xs-6">
+        <label for="oldpeak">Oldpeak</label>
+        <input type="text" name="oldpeak" class="form-control" id="oldpeak" placeholder=" = ST depression induced by exercise relative to rest" required>
+      </div>
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+        <label for="peak_est">Peak Exercise ST Segment</label>
+        <input type="text" name="peak_est" class="form-control" id="peak_est" placeholder="Slope of the peak exercise ST segment" required>
+      </div>
+      <div class="form-group col-xs-6">
+        <label for="colours">Number of Major Vessels Coloured by Flourosopy</label>
+        <select id="colours" name="colours" class="form-control" placeholder="Number of Major Vessels Coloured by Flourosopy" required>
+          <option>0</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+        </select>
+      </div>
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+      <div class="form-group col-xs-6">
+          <label for="thal">Thalassemia</label>
+          <select id="thal" name="thal" class="form-control" placeholder="Thalassemia" required>
+            <option>0</option>
+            <option>3</option>
+            <option>6</option>
+            <option>7</option>
+          </select>
+      </div>
+    </div>
+    <div class="form-group col-xs-6">
+        <label for="target">Target: Have Disease or Not</label>
+        <select id="target" name="target" class="form-control" placeholder="Target: Have Disease or Not" required>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+    </div>
+<!-- ROW -->
+    <div class="form-row">
+       <div class="form-group col">
+          <button class="btn pull-left btn-primary btn-lg" type="submit">Predict!</button>
         </div>
-
-        <!-- ROW -->
-        <div class="form-row">
-            <div class="form-group col-md-12">
-            <label for="inputAddress">Address</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-            </div>
+        <div class="form-group col">
+          <button class="btn pull-right btn-danger btn-lg" type="reset">Reset Form</button>
         </div>
+      </div>
+  </form>
+</fieldset>
 
-        <!-- ROW -->
-        <div class="form-row">
-            <div class="form-group col-md-12">
-            <label for="inputAddress2">Address 2</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-            </div>
+<!--
         </div>
-
-        <!-- ROW -->
-
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputCity">City</label>
-            <input type="text" class="form-control" id="inputCity">
-          </div>
-          <div class="form-group col-md-4">
-            <label for="inputState">State</label>
-            <select id="inputState" class="form-control">
-              <option selected>Choose...</option>
-              <option>...</option>
-            </select>
-          </div>
-          <div class="form-group col-md-2">
-            <label for="inputZip">Zip</label>
-            <input type="text" class="form-control" id="inputZip">
-          </div>
-        </div>
-
-        <!-- ROW -->
-
-        <div class="form-group">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="gridCheck">
-            <label class="form-check-label" for="gridCheck">
-              Check me out
-            </label>
-          </div>
-
-          <!-- ROW -->
-
-        </div>
-        <input class="btn btn-primary btn-lg" type="submit"></button>
+        <input class="btn btn-primary btn-lg" type="submit" value="Predict!"></button>
         <input class="btn btn-danger btn-lg" type="reset" value="Reset"></button>
       </form>
-
+    -->
 {% endblock %}

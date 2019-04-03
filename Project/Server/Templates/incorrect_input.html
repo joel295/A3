@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block sidebar %}
+<li {%- if request.path == "/" %} class="active"{% endif %}><a href="/">Home</a></li>
+<li {%- if request.path == "/graph" %} class="active"{% endif %}><a href="/graph">Data Visualisation</a></li>
+<li {%- if request.path == "/factors" %} class="active"{% endif %}><a href="/factors">Potential Important Factors</a></li>
+<li {%- if request.path == "/predictor" %} class="active"{% endif %}><a href="/predictor">Predicting {what is our track}</a></li>
+<li {%- if request.path == "/other" %} class="active"{% endif %}><a href="/other">Other Stuff/Ideas</a></li>
+{% endblock %}
+
+{% block content %}
+<div>
+<h2>Hmmm that input data doesn't look quite right!</h2>
+</div>
+<div class="text-center">
+    <img class="img-fluid" src="static/images/dirty-data.png" alt="dirty-data">
+</div>
+<div>
+<h4>You have entered in some data that isn't quite right</h4>
+<h4>You have entered the following fields incorrectly:</h4>
+<ul>
+{% for row in error %}
+    <li>{{ row }}</li>
+    </ul>
+<h4>Perhaps you should try again with correct input.</h4><br>
+</div>
+<div>
+<a class="btn btn-primary btn-lg" href="/predictor" role="button">Return to Predictor</a>
+</div>
+{% endblock %}
