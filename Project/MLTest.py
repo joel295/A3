@@ -196,36 +196,34 @@ def neuralNetworkLearning():
     numpyYTrain = yArr[50:]
     y = torch.tensor(numpyYTrain, dtype=torch.long)
     yTest = torch.tensor(numpyYTest, dtype=torch.long)
-    data = data.drop(['target','sex', 'chest_pain_type', 'fasting_blood_sugar', 'resting_electro'], axis=1)
+    data = data.drop(['target'], axis=1)
 
     numpy_data = scaler.fit_transform(np.array(data).astype('float'))
     print(numpy_data)
 
     X = torch.Tensor(numpy_data[50:])
     XTest = torch.Tensor(numpy_data[:50])
-   
+
     #N is number of samples, F_in is number of features
     #H is hidden dimensions, F_out is output features (1 the heart diesease),
-    N, F_in, H1, H2, H3,  F_out = len(y), 9, 100, 9, 7, 2
-    
+    N, F_in, H1, H2, H3,  F_out = len(y), 13, 7, 7, 7, 2
+    dataModel = nn.Sequential(
+        nn.Linear(F_in, H1),
+        nn.Linear(H1,H2),
+        nn.Linear(H2,H3),
+        nn.Sigmoid(),
+        nn.Linear(H3, F_out),
+        nn.LogSoftmax()
+    )
     
     #learningRate = 0.01
     for s in range(1):
-        dataModel = nn.Sequential(
-            nn.Linear(F_in, H1),
-            nn.ReLU(),
-            nn.Linear(H1, H2),
-            nn.ReLU(),
-            nn.Linear(H2, F_out),
-            nn.LogSoftmax(dim=1)
-        )
 
-        optimizer = optim.SGD(dataModel.parameters(), lr=0.01, momentum=0.9)
+        optimizer = optim.Adam(dataModel.parameters())
         criterion = nn.NLLLoss()
         accuracyList = []
         for t in range(1000):
             optimizer.zero_grad()
-
             y_pred = dataModel(X)
 
             loss = criterion(y_pred, y)
@@ -242,17 +240,27 @@ def neuralNetworkLearning():
             predicted = y_pred.detach().numpy()
             predicted = [np.argmax(x) for x in predicted]
             loss = criterion(y_pred, yTest)
-            #print('Unseen Data Loss = {}'.format(loss.item()))
-
-            #predicted = np.reshape(predicted, (1,50))[0]
             matches = np.where(predicted==numpyYTest,1,0)
             correctness = np.count_nonzero(matches)/len(matches)*100
             accuracyList.append(correctness)
+            if(correctness >= 94):
+                break
 
-        print(predicted)
-        print(numpyYTest)
-        print(matches)
-        print("Model Accuracy: {}%".format(correctness))
+        print("Predicted Target: " , predicted)
+        print("Actual Target: " , numpyYTest)
+        print("Array of Matches: " , matches)
+        np.set_printoptions(formatter={'float_kind':'{:f}'.format})
+        probabilities = np.exp(y_pred.detach().numpy())
+        print(probabilities)
+        print("Model Accuracy Test: {}%".format(correctness))
+        y_pred = dataModel(XTest)
+        predicted = y_pred.detach().numpy()
+        predicted = [np.argmax(x) for x in predicted]
+        loss = criterion(y_pred, yTest)
+        matches = np.where(predicted==numpyYTest,1,0)
+        correctness = np.count_nonzero(matches)/len(matches)*100
+        print("Model Accuracy Train: {}%".format(correctness))
+
         print("{}: Most Accurate at t={}".format(s,np.argmax(accuracyList)))
         plt.plot(accuracyList)
 
