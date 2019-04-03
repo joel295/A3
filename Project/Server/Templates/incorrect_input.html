@@ -11,18 +11,19 @@
 {% endblock %}
 
 {% block content %}
-<div>
-<h2>Hmmm that input data doesn't look quite right!</h2>
-</div>
 <div class="text-center">
-    <img class="img-fluid" src="static/images/dirty-data.png" alt="dirty-data">
+    <img src="static/images/dirty-data.png" alt="test" class="img-responsive center-block">
+    <br>
 </div>
 <div>
-<h4>You have entered in some data that isn't quite right</h4>
-<h4>You have entered the following fields incorrectly:</h4>
+    <h3>Hmmm that input data doesn't look quite right!</h3>
+</div>
+<div>
+<p>You have entered the following fields incorrectly:</p>
 <ul>
 {% for row in error %}
     <li>{{ row }}</li>
+{% endfor %}
     </ul>
 <h4>Perhaps you should try again with correct input.</h4><br>
 </div>

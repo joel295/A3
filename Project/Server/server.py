@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, abort
-from server_helper import graph_dict, test_list, validate_function
+from server_helper import graph_dict, test_list, validate_result, image_name_finder
 import io
 
 def server():
@@ -32,7 +32,10 @@ def graph(number=None):
     if not 1 <= number <= 14:
         abort(404)
     else:
-        return render_template("graph.html", graph_name = graph_name)
+        # Note: ensure the image is saved in /static/images, simply set a function to return the name of the image
+        # associated
+        my_image = image_name_finder(number)
+        return render_template("graph.html", graph_name = graph_name, image_name = my_image)
 
 @server.route('/factors')
 def factors():
@@ -45,7 +48,7 @@ def factors():
 def predictor():
     if request.method == 'POST':
         result = request.form # i am a string dict, print me out to see my keys and values
-        error = validate_function(result)
+        error = validate_result(result)
         if error:
             return render_template("incorrect_input.html", error=error)
         else:

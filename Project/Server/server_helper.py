@@ -6,23 +6,35 @@ graph_dict = {1:'Age',2:'Sex',3:'Chest Pain Type',4:'Resting Blood Pressure',\
         8:'Max. Heart Rate', 9:'Exercise Induced Angina', 10:'oldpeak',\
             11:'Peak Exercise ST slope',12:'Major vessels by flourosopy',\
                 13:'thal',14:'target'}
-def validate_function(result):
+
+def validate_result(result):
     ## check the values being used here
     hold = []
-    if result['age'] <0 or result['age']> 120:
+    try:
+        if int(result['age']) < 0 or int(result['age'])> 120:
+            hold.append('Age')
+    except ValueError:
         hold.append('Age')
-    if result['serum_cholestoral'] < 0 or result['serum_cholestoral'] > 1000:
+    try:
+        if int(result['resting_blood_pressure']) < 10 or int(result['resting_blood_pressure']) > 300:
+            hold.append('Resting blood pressure')
+    except ValueError:
+        hold.append('Resting blood pressure')
+    try:
+        if int(result['serum_cholestoral']) < 0 or int(result['serum_cholestoral']) > 500:
+            hold.append('Serum Cholestoral')
+    except ValueError:
         hold.append('Serum Cholestoral')
-    if result['fasting_blood_sugar'] < 120:
-        hold.append('Fasting Blood Sugar')
-    if result['max_heart'] < 0 or result['max_heart'] > 300:
+    try:
+        if int(result['max_heart']) < 0 or int(result['max_heart']) > 300:
+            hold.append('Maximum Heart Rate Achieved')
+    except ValueError:
         hold.append('Maximum Heart Rate Achieved')
-    if result['ei_angina'] < 0:
-        hold.append('Exercise Induced Angina')
-    if result['oldpeak'] < 0:
+    try:
+        if float(result['oldpeak']) < 0 or float(result['oldpeak']) > 10:
+            hold.append('Oldpeak')
+    except ValueError:
         hold.append('Oldpeak')
-    if result['peak_est'] < 0:
-        hold.append('Peak Exercise ST Segment')
     if not hold:
         return False
     else:
@@ -42,5 +54,10 @@ def create_plot():
     #plt.xlabel('entry a')
     #plt.ylabel('entry b')
     #plt.savefig('static/images/test.png')
+
+# takes the graph number and returns the string of the graph name
+def image_name_finder(number):
+    image_name = 'test'
+    return image_name
 
 #create_plot()

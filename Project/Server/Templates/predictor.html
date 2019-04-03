@@ -54,9 +54,12 @@
         <input type="text" class="form-control" name="serum_cholestoral" id="serum_cholestoral" placeholder="Serum cholestoral in mg/dl" required>
       </div>
       <div class="form-group col-xs-6">
-        <label for="fasting_blood_sugar">Fasting Blood Sugar</label>
-        <input type="text" class="form-control" name="fasting_blood_sugar" id="fasting_blood_sugar" placeholder="Fasting blood sugar > 120 mg/dl" required>
-      </div>
+          <label for="fasting_bs">Is Fasting Blood Sugar Over 120 mg/dl</label>
+          <select id="fasting_bs" name="fasting_bs" class="form-control" placeholder="Is Fasting Blood Sugar Over 120 mg/dl" required>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
     </div>
 <!-- ROW -->
     <div class="form-row">
@@ -76,10 +79,13 @@
     </div>
 <!-- ROW -->
     <div class="form-row">
-      <div class="form-group col-xs-6">
-        <label for="ei_angina">Exercise Induced Angina</label>
-        <input type="text" name="ei_angina" class="form-control" id="ei_angina" placeholder="Exercise Induced Angina" required>
-      </div>
+        <div class="form-group col-xs-6">
+            <label for="ei_angina">Do you have exercised induced angina?</label>
+            <select id="ei_angina" name="fasting_bs" class="form-control" placeholder="Do you have exercised induced angina?" required>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
       <div class="form-group col-xs-6">
         <label for="oldpeak">Oldpeak</label>
         <input type="text" name="oldpeak" class="form-control" id="oldpeak" placeholder=" = ST depression induced by exercise relative to rest" required>
@@ -88,9 +94,13 @@
 <!-- ROW -->
     <div class="form-row">
       <div class="form-group col-xs-6">
-        <label for="peak_est">Peak Exercise ST Segment</label>
-        <input type="text" name="peak_est" class="form-control" id="peak_est" placeholder="Slope of the peak exercise ST segment" required>
-      </div>
+          <label for="peak_est">What is the slope of the peak exercise ST segment?</label>
+          <select id="peak_est" name="peak_est" class="form-control" placeholder="What is the slope of the peak exercise ST segment?" required>
+            <option>Upsloping</option>
+            <option>Flat</option>
+            <option>Downsloping</option>
+          </select>
+        </div>
       <div class="form-group col-xs-6">
         <label for="colours">Number of Major Vessels Coloured by Flourosopy</label>
         <select id="colours" name="colours" class="form-control" placeholder="Number of Major Vessels Coloured by Flourosopy" required>
@@ -103,22 +113,14 @@
     </div>
 <!-- ROW -->
     <div class="form-row">
-      <div class="form-group col-xs-6">
+      <div class="form-group col-xs-12">
           <label for="thal">Thalassemia</label>
           <select id="thal" name="thal" class="form-control" placeholder="Thalassemia" required>
-            <option>0</option>
-            <option>3</option>
-            <option>6</option>
-            <option>7</option>
+            <option>3 - Normal</option>
+            <option>6 - Fixed Defect</option>
+            <option>7 - Reversible Defect</option>
           </select>
       </div>
-    </div>
-    <div class="form-group col-xs-6">
-        <label for="target">Target: Have Disease or Not</label>
-        <select id="target" name="target" class="form-control" placeholder="Target: Have Disease or Not" required>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
     </div>
 <!-- ROW -->
     <div class="form-row">
@@ -131,11 +133,4 @@
       </div>
   </form>
 </fieldset>
-
-<!--
-        </div>
-        <input class="btn btn-primary btn-lg" type="submit" value="Predict!"></button>
-        <input class="btn btn-danger btn-lg" type="reset" value="Reset"></button>
-      </form>
-    -->
 {% endblock %}
