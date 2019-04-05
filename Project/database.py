@@ -17,7 +17,7 @@ class server_database:
             conn.commit()
             conn.close()
         return
-    
+
     # Database operations here
     def create_table(self):#, conn):    #fix on deploy
         conn = sqlite3.connect(self.database_name)  # remove on deploy
@@ -51,7 +51,7 @@ class server_database:
             print(e)
         conn.commit()
         conn.close()
-    
+
     def delete_row(self, condition):
         conn = sqlite3.connect(self.database_name)
         c = conn.cursor()
@@ -62,7 +62,7 @@ class server_database:
             print(e)
         conn.commit()
         conn.close()
-    
+
     def delete_table(self):
         conn = sqlite3.connect(self.database_name)
         c = conn.cursor()
@@ -73,18 +73,27 @@ class server_database:
             print(e)
         conn.commit()
         conn.close()
-    
+
+    def select_all(self):
+        conn = sqlite3.connect(self.database_name)
+        c = conn.cursor()
+        c.execute("SELECT * FROM Heart")
+        rows = c.fetchall()
+        return rows
+
     def select_row(self, condition):
         conn = sqlite3.connect(self.database_name)
         c = conn.cursor()
-        delete = 'SELECT From Heart WHERE {}'.format(condition)
+        select = 'SELECT * From Heart WHERE {}'.format(condition)
         try:
-            c.execute(delete)
+            c.execute(select)
+            rows = c.fetchall()
         except sqlite3.Error as e:
             print(e)
         conn.commit()
         conn.close()
-    
+        return rows
+
     # Import/clean operations
     def import_data(self, data='processed.cleveland_no_headers.csv'):
         conn = sqlite3.connect(self.database_name)
@@ -93,19 +102,19 @@ class server_database:
         #get csv data
         missing_values = ['?']
         df = pandas.read_csv(data, na_values = missing_values)
-        
+
         # clean the data
         df = df.dropna() # this will be fixed, planning on imputing data for any NaN values in real type columns
-        
+
         #df.columns = ['Age', 'Sex', 'Chest_Pain_Type', 'RBP', 'Serum_Chol', 'Fast_Blood_Sugar', 'Resting_ECG', 'Max_Heart_Rate', 'EI_Angina', 'Oldpeak', 'Slope', 'Major_Vessels', 'Thal', 'Target']
         #desired column data types: [int, int, int, real, real, int, int, real, int, real, int, int, int, int]
         #convert appropriate columns to integers - sorry about magic numbers
         df.iloc[:,[0,1,2,5,6,8,10,11,12,13]] = df.iloc[:,[0,1,2,5,6,8,10,11,12,13]].apply(pandas.to_numeric, downcast='integer')
-        
+
         # put tuples into rows, types converted from numpy variants to standard python types - did this to avoid sqlite3 throwing data integrity error
         # index from dataframe being used as primary key
         rows = [tuple(x) for x in df.to_records(index=True).tolist()]
-        
+
         ###
         c.executemany("INSERT INTO Heart VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", rows)
         conn.commit()
