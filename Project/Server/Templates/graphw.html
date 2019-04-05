@@ -1,26 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}Visualisations{% endblock %}
+{% block title %}
+  {%- if request.path == "/graph" %}
+    Visualisations
+  {%- else %}
+    {% block graphtitle %}{% endblock %}
+  {% endif %}
+{% endblock %}
 
-{% block sidebar %}
-<li {%- if request.path == "/" %} class="active"{% endif %}><a href="/">Home</a></li>
-<li {%- if request.path == "/graph1" %} class="active"{% endif %}><a href="/graph1">Age</a></li>
-<li {%- if request.path == "/graph2" %} class="active"{% endif %}><a href="/graph2">Sex</a></li>
-<li {%- if request.path == "/graph3" %} class="active"{% endif %}><a href="/graph3">Chest Pain Type</a></li>
-<li {%- if request.path == "/graph4" %} class="active"{% endif %}><a href="/graph4">Resting Blood Pressure</a></li>
-<li {%- if request.path == "/graph5" %} class="active"{% endif %}><a href="/graph5">Serum Cholestrol</a></li>
-<li {%- if request.path == "/graph6" %} class="active"{% endif %}><a href="/graph6">Fasting Blood Sugar</a></li>
-<li {%- if request.path == "/graph7" %} class="active"{% endif %}><a href="/graph7">Resting ECG Results</a></li>
-<li {%- if request.path == "/graph8" %} class="active"{% endif %}><a href="/graph8">Max. Heart Rate</a></li>
-<li {%- if request.path == "/graph9" %} class="active"{% endif %}><a href="/graph9">Exercise Induced Angina</a></li>
-<li {%- if request.path == "/graph10" %} class="active"{% endif %}><a href="/graph10">oldpeak</a></li>
-<li {%- if request.path == "/graph11" %} class="active"{% endif %}><a href="/graph11">Peak Exercise ST slope</a></li>
-<li {%- if request.path == "/graph12" %} class="active"{% endif %}><a href="/graph12">Major vessels by flourosopy</a></li>
-<li {%- if request.path == "/graph13" %} class="active"{% endif %}><a href="/graph13">thal</a></li>
-<li {%- if request.path == "/graph14" %} class="active"{% endif %}><a href="/graph14">target</a></li>
+{% block navbar %}
+<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Choose your chart
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/graph1">Graph 1</a>
+          <a class="dropdown-item" href="/graph2">Graph 2</a>
+          <a class="dropdown-item" href="/graph3">Graph 3</a>
+          <a class="dropdown-item" href="/graph4">Graph 4</a>
+          <a class="dropdown-item" href="/graph5">Graph 5</a>
+          <a class="dropdown-item" href="/graph6">Graph 6</a>
+          <a class="dropdown-item" href="/graph7">Graph 7</a>
+          <a class="dropdown-item" href="/graph8">Graph 8</a>
+          <a class="dropdown-item" href="/graph9">Graph 9</a>
+          <a class="dropdown-item" href="/graph10">Graph 10</a>
+          <a class="dropdown-item" href="/graph11">Graph 11</a>
+          <a class="dropdown-item" href="/graph12">Graph 12</a>
+          <a class="dropdown-item" href="/graph13">Graph 13</a>
+          <a class="dropdown-item" href="/graph14">Graph 14</a>
+        </div>
+      </li>
 {% endblock %}
 
 {% block content %}
+  {%- if request.path == "/graph" %}
     <h2>Welcome to our visualisations!</h2>
-    <h4>Choose a view on the left to explore</h4>
+    <p class="lead">Choose a view from the top right to explore.</p>
+  {%- else %}
+    {% block graphcontent %}{% endblock %}
+  {% endif %}
 {% endblock %}

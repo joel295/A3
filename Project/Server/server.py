@@ -5,7 +5,6 @@ import io
 def server():
     app = Flask(__name__)
     app.debug =  True
-    app.host='localhost'
     app.config['TESTING']
     return app
 
@@ -59,4 +58,7 @@ def predictor():
 def other():
     return render_template("other.html")
 
-server.run()
+# run local
+server.run(host='localhost')
+# run on LAN
+#server.run(host='0.0.0.0')

@@ -2,15 +2,13 @@
 
 {% block title %}Other Stuff{% endblock %}
 
-{% block sidebar %}
-<li {%- if request.path == "/" %} class="active"{% endif %}><a href="/">Home</a></li>
-<li {%- if request.path == "/graph" %} class="active"{% endif %}><a href="/graph">Data Visualisation</a></li>
-<li {%- if request.path == "/factors" %} class="active"{% endif %}><a href="/factors">Potential Important Factors</a></li>
-<li {%- if request.path == "/predictor" %} class="active"{% endif %}><a href="/predictor">Predicting {what is our track}</a></li>
-<li {%- if request.path == "/other" %} class="active"{% endif %}><a href="/other">Other Stuff/Ideas</a></li>
-
-{% endblock %}
 
 {% block content %}
-    <p> Place to collate any extra mark or other ideas type stuff</p>
+<div class="container-fluid">
+    <div class="row">
+        <p class="lead">
+            Place to collate any extra mark or other ideas type stuff
+        </p>
+    </div>
+</div>
 {% endblock %}
