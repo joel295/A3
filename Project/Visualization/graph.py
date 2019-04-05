@@ -49,7 +49,7 @@ class graph:
 
         # Format and save
         fig.tight_layout()
-        fig.subplots_adjust(top=0.88)
+        fig.subplots_adjust(top=0.85)
 
         # Save image
         plt.savefig(IMG_PATH + 'graph4.png')
