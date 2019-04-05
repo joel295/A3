@@ -42,8 +42,8 @@ def validate_result(result):
 
 def test_list():
     result = []
-    for i in range(15):
-        result.append([i*1,i*2,i*3])
+    for i in range(1,15):
+        result.append([i,graph_dict[i],i*2])
     return result
 
 def create_plot():
