@@ -81,10 +81,10 @@ class server_database:
         rows = c.fetchall()
         return rows
 
-    def select_row(self, condition):
+    def select_rows(self, columns, condition):
         conn = sqlite3.connect(self.database_name)
         c = conn.cursor()
-        select = 'SELECT * From Heart WHERE {}'.format(condition)
+        select = 'SELECT {} From Heart WHERE {}'.format(columns, condition)
         try:
             c.execute(select)
             rows = c.fetchall()
