@@ -22,6 +22,7 @@ def home_page():
 @server.route('/graph')
 @server.route('/graph<int:number>')
 def graph(number=None):
+    print(number)
     if number == None:
         return render_template("graphw.html")
     try:
@@ -32,8 +33,8 @@ def graph(number=None):
     if not 1 <= number <= 14:
         abort(404)
     else:
-        # Note: ensure the image is saved in /static/images, simply set a function to return the name of the image
-        # associated
+        # Note: ensure the image is saved in /static/images,
+        # Simply set a function to return the name of the image
         my_image = image_name_finder(number)
         return render_template("graph.html", graph_name = graph_name, image_name = my_image)
 
