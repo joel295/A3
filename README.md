@@ -38,3 +38,7 @@ Marks are earnt as follows:
             - We will rank your accuracy with all submissions, and your marks depend on the ranking.
             - Top 5 teams will get full mark.
         - Bonus: 4 marks.
+------------
+To start the webserver in the server folder, run the following command in the server directory:
+
+    $ python3 server.py
