@@ -48,11 +48,11 @@ class graph:
         # Axis Limits
         g.axes[1,0].set_ylim(0,50)
         g.axes[1,0].set_xlim(20,80)
-        g.axes[1,0].set_xticks(range(20, 81, 10))
+        g.axes[1,0].set_xticks(range(20, 80, 10))
         g.axes[1,0].set_yticks(range(0, 55, 10))
 
         # Titles
-        plt.subplots_adjust(top=0.85, left=0.05)
+        plt.subplots_adjust(top=0.85, left=0.07, bottom=0.15)
         g.fig.suptitle("Chest Pain Type\n")
         g.axes[0,0].set_title("Typical Angina")
         g.axes[0,1].set_title("Atypical Angina")
@@ -66,6 +66,8 @@ class graph:
         gender_labels =  ["","","","Male","","","","Female","","","",]
         for i, ax in enumerate(g.axes.flat):
             plt.setp(ax.texts, text=gender_labels[i], size=11)
+
+        g.set_xticklabels(rotation=45, labels=["20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "> 80"])
 
         # Save image
         plt.savefig(IMG_PATH + 'graph3.png')
@@ -214,6 +216,51 @@ class graph:
         # Save image
         plt.savefig(IMG_PATH + 'graph6.png')
 
+    # Resting ECG
+    def create_plot_7(self):
+
+        # Get data
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex, Resting_ECG FROM Heart;', conn)
+
+        ## Plot histograms male and female by type
+
+        sns.set_style("darkgrid")               # set the background of the charts
+        bins = [20,30,40,50,60,70,80]           # group age by 10's
+        palette = {'color': ['b', 'r']}         # separate colours for male/female
+
+        g = sns.FacetGrid(df, row='Sex', col='Resting_ECG', hue='Sex',
+                margin_titles=True, hue_kws=palette)
+        g.map(sns.distplot, 'Age', bins=bins, kde=False,
+                hist_kws=dict(edgecolor="black", linewidth=1));
+
+        ## Format Plot
+
+        # Axis Limits
+        g.axes[1,0].set_ylim(0,50)
+        g.axes[1,0].set_xlim(20,80)
+        g.axes[1,0].set_xticks(range(20, 80, 10))
+        g.axes[1,0].set_yticks(range(0, 55, 10))
+
+        # Titles
+        plt.subplots_adjust(top=0.85, left=0.07, bottom=0.15)
+        g.fig.suptitle("Resting Electrocardiographic Results\n")
+        g.axes[0,0].set_title("Normal")
+        g.axes[0,1].set_title("ST-T Wave Abnormality")
+        g.axes[0,2].set_title("Left Ventricular Hypertrophy")
+
+        # Overall Labels
+        g.set_axis_labels('', '')
+        g.fig.text(x=0.01, y=0.5, verticalalignment='center',s='Frequency', rotation=90, size=11)
+        g.fig.text(x=0.5, y=0.01, horizontalalignment='center', s='Age', size=11)
+        gender_labels =  ["","","Male","","","Female"]
+        for i, ax in enumerate(g.axes.flat):
+            plt.setp(ax.texts, text=gender_labels[i], size=11)
+        g.set_xticklabels(rotation=45, labels=["20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "> 80"])
+
+        # Save image
+        plt.savefig(IMG_PATH + 'graph7.png')
+
     # Max Heart Rate
     def create_plot_8(self):
 
@@ -276,15 +323,17 @@ if __name__ == '__main__':
     # Serum Cholestrol
     g5 = graph(5, db)
     g5.create_plot_5()
-    '''
 
     # Fasting Blood Sugar
-    g5 = graph(6, db)
-    g5.create_plot_6()
+    g6 = graph(6, db)
+    g6.create_plot_6()
 
     '''
     # Resting ECG
+    g7 = graph(7, db)
+    g7.create_plot_7()
 
+    '''
     # Max Heart Rate
     g8 = graph(8, db)
     g8.create_plot_8()
