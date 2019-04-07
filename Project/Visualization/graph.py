@@ -302,6 +302,63 @@ class graph:
         # Save image
         plt.savefig(IMG_PATH + 'graph8.png')
 
+    # Exercice Induced Angina
+    def create_plot_9(self):
+        # Get data
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex, EI_Angina FROM Heart;', conn)
+
+        # Divide data into male and female
+
+        sns.set_style('darkgrid')
+
+        male_df = df.query('Sex == 1')
+        male_df = male_df.drop('Sex', axis=1)
+
+        female_df = df.query('Sex == 0')
+        female_df = female_df.drop('Sex', axis=1)
+
+        # Aggregate the number of true/false, grouped by age bracket
+
+        male_df['count'] = 1
+        male_df[''] = pd.cut(male_df.Age, [20,30,40,50,60,70,80])
+        male_df = male_df.pivot_table('count', index='', columns='EI_Angina', aggfunc='sum')
+
+        female_df['count'] = 1
+        female_df[''] = pd.cut(female_df.Age, [20,30,40,50,60,70,80])
+        female_df = female_df.pivot_table('count', index='', columns='EI_Angina', aggfunc='sum')
+
+        # Generate the subplots
+        fig, axes = plt.subplots(nrows=1, ncols=2, )
+        ax1 = male_df.plot.bar(stacked=True, ax=axes[0], rot=45, legend=False)
+        ax2 = female_df.plot.bar(stacked=True, ax=axes[1], rot=45, legend=False)
+
+        ## Format Plot
+
+        # Titles
+        fig.suptitle('Exercise Induced Angina')
+        ax1.set_title('Male')
+        ax2.set_title('Female')
+
+        # Legend
+        fig.legend(labels =['False', 'True'], loc = (0.83, 0.7))
+
+        # Axes labels
+        ax1.set_yticks(range(0, 101, 10))
+        ax2.set_yticks(range(0, 101, 10))
+        ax2.set_yticklabels([])
+        ax1.set_xticklabels(["20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "> 80"])
+        ax2.set_xticklabels(["20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "> 80"])
+        fig.text(x=0.01, y=0.5, verticalalignment='center',s='Frequency', rotation=90, size=11)
+        fig.text(x=0.45, y=0.05, horizontalalignment='center', s='Age Group', size=11)
+
+        # Layout
+        fig.tight_layout()
+        fig.subplots_adjust(top=0.85, left=0.1, bottom=0.2, right=0.8)
+
+        # Save image
+        plt.savefig(IMG_PATH + 'graph9.png')
+
 
 # Main function to create each graph and save in /Server/static/images/
 if __name__ == '__main__':
@@ -328,17 +385,18 @@ if __name__ == '__main__':
     g6 = graph(6, db)
     g6.create_plot_6()
 
-    '''
     # Resting ECG
     g7 = graph(7, db)
     g7.create_plot_7()
 
-    '''
     # Max Heart Rate
     g8 = graph(8, db)
     g8.create_plot_8()
+    '''
 
     # Exercise Induced Angina
+    g9 = graph(9, db)
+    g9.create_plot_9()
 
     # Oldpeak
 
@@ -347,5 +405,3 @@ if __name__ == '__main__':
     # Number Vessels Coloure by Flouroscopy
 
     # Thalassemia
-
-    '''
