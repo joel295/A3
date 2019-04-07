@@ -4,6 +4,12 @@
 
 You need to visualize the statistics for basic information (attributes) 3-13 by groups of age and sex with appropriate charts, and display on your web app.
 
+**1. Age**  
+    Range: 29-77
+
+**2. Sex**  
+    Values: 1 = male, 0 = female
+
 **3. Chest Pain Type**  
     Values: 1 = typical angin, 2 = atypical angina, 3 = non-anginal pain, 4 = asymptomatic
 
