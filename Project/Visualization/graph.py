@@ -30,7 +30,7 @@ class graph:
 
         # Get data
         conn = sqlite3.connect(db.database_name)
-        df = pd.read_sql_query('SELECT Age, Sex, Chest_Pain_Type, Target FROM Heart;', conn)
+        df = pd.read_sql_query('SELECT Age, Sex, Chest_Pain_Type FROM Heart;', conn)
 
         ## Plot histograms male and female by type
 
@@ -156,6 +156,64 @@ class graph:
         plt.savefig(IMG_PATH + 'graph5.png')
 
 
+    # Fasting Blood Sugar > 120
+    def create_plot_6(self):
+
+        # Get data
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex, Fast_Blood_Sugar FROM Heart;', conn)
+
+        # Divide data into male and female
+
+        sns.set_style('darkgrid')
+
+        male_df = df.query('Sex == 1')
+        male_df = male_df.drop('Sex', axis=1)
+
+        female_df = df.query('Sex == 0')
+        female_df = female_df.drop('Sex', axis=1)
+
+        # Aggregate the number of true/false, grouped by age bracket
+
+        male_df['count'] = 1
+        male_df[''] = pd.cut(male_df.Age, [20,30,40,50,60,70,80])
+        male_df = male_df.pivot_table('count', index='', columns='Fast_Blood_Sugar', aggfunc='sum')
+
+        female_df['count'] = 1
+        female_df[''] = pd.cut(female_df.Age, [20,30,40,50,60,70,80])
+        female_df = female_df.pivot_table('count', index='', columns='Fast_Blood_Sugar', aggfunc='sum')
+
+        # Generate the subplots
+        fig, axes = plt.subplots(nrows=1, ncols=2, )
+        ax1 = male_df.plot.bar(stacked=True, ax=axes[0], rot=45, legend=False)
+        ax2 = female_df.plot.bar(stacked=True, ax=axes[1], rot=45, legend=False)
+
+        ## Format Plot
+
+        # Titles
+        fig.suptitle('Fast Blood Sugar > 120 mg/dl')
+        ax1.set_title('Male')
+        ax2.set_title('Female')
+
+        # Legend
+        fig.legend(labels =['False', 'True'], loc = (0.83, 0.7))
+
+        # Axes labels
+        ax1.set_yticks(range(0, 101, 10))
+        ax2.set_yticks(range(0, 101, 10))
+        ax2.set_yticklabels([])
+        ax1.set_xticklabels(["20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "> 80"])
+        ax2.set_xticklabels(["20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "> 80"])
+        fig.text(x=0.01, y=0.5, verticalalignment='center',s='Frequency', rotation=90, size=11)
+        fig.text(x=0.45, y=0.05, horizontalalignment='center', s='Age Group', size=11)
+
+        # Layout
+        fig.tight_layout()
+        fig.subplots_adjust(top=0.85, left=0.1, bottom=0.2, right=0.8)
+
+        # Save image
+        plt.savefig(IMG_PATH + 'graph6.png')
+
     # Max Heart Rate
     def create_plot_8(self):
 
@@ -218,9 +276,13 @@ if __name__ == '__main__':
     # Serum Cholestrol
     g5 = graph(5, db)
     g5.create_plot_5()
+    '''
 
     # Fasting Blood Sugar
+    g5 = graph(6, db)
+    g5.create_plot_6()
 
+    '''
     # Resting ECG
 
     # Max Heart Rate
