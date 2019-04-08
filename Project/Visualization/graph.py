@@ -1,7 +1,6 @@
 '''
-hack at me
-
-I am just a header area
+Visualization for Heart data attributes 3-13
+Creates graph<number>.png files
 '''
 import os, sys, inspect
 import matplotlib.pyplot as plt
@@ -15,7 +14,7 @@ sys.path.insert(0, PARENT_DIR)
 
 from database import *
 
-IMG_PATH = PARENT_DIR + '/Server/static/images/'    #
+IMG_PATH = PARENT_DIR + '/Server/static/images/'
 
 class graph:
 
@@ -71,6 +70,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph3.png')
+        
 
     # Resting Blood Pressure
     def create_plot_4(self):
@@ -228,6 +228,7 @@ class graph:
         # Save image
         plt.savefig(IMG_PATH + 'graph6.png')
 
+
     # Resting ECG
     def create_plot_7(self):
 
@@ -272,6 +273,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph7.png')
+
 
     # Max Heart Rate
     def create_plot_8(self):
@@ -319,6 +321,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph8.png')
+
 
     # Exercice Induced Angina
     def create_plot_9(self):
@@ -484,6 +487,7 @@ class graph:
         # Save image
         plt.savefig(IMG_PATH + 'graph12.png')
 
+
     # Thalassemia
     def create_plot_13(self):
 
@@ -529,6 +533,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph13.png')
+
 
 # Main function to create each graph and save in /Server/static/images/
 if __name__ == '__main__':
@@ -576,7 +581,6 @@ if __name__ == '__main__':
     # Number Vessels Coloured by Flouroscopy
     g12 = graph(12,db)
     g12.create_plot_12()
-
 
     # Thalassemia
     g13 = graph(13, db)
