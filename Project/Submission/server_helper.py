@@ -2,6 +2,7 @@
 import numpy as np
 import database
 import predictor as p
+import graph as g
 
 graph_dict = {1:'Age',2:'Sex',3:'Chest Pain Type',4:'Resting Blood Pressure',\
     5:'Serum Cholestrol',6:'Fasting Blood Sugar',7:'Resting ECG Results',\
@@ -48,18 +49,12 @@ def test_list():
         result.append([i,graph_dict[i],i*2])
     return result
 
-def create_plot():
-    data = {'a': np.arange(50), 'c': np.random.randint(0, 50, 50),'d': np.random.randn(50)}
-    data['b'] = data['a'] + 10 * np.random.randn(50)
-    data['d'] = np.abs(data['d']) * 100
-    #plt.scatter('a', 'b', c='c', s='d', data=data)
-    #plt.xlabel('entry a')
-    #plt.ylabel('entry b')
-    #plt.savefig('static/images/test.png')
-
 # takes the graph number and returns the string of the graph name
 def image_name_finder(number):
-    image_name = 'test'
+    if (number != None):
+        image_name = 'graph' + str(number)
+    else:
+        return False
     return image_name
 
 def database_startup():
@@ -83,3 +78,49 @@ def predicted(dict_result):
     predictor = p.Predictor()
     result = predictor.nnPredict(data)
     return result
+
+def create_graphs(db):
+    # Create graphs and save files
+
+    # Chest pain type
+    g3 = g.graph(3, db)
+    g3.g.create_plot_3()
+
+    # Resting Blood Pressure
+    g4 = g.graph(4, db)
+    g4.g.create_plot_4()
+
+    # Serum Cholestrol
+    g5 = g.graph(5, db)
+    g5.g.create_plot_5()
+
+    # Fasting Blood Sugar
+    g6 = g.graph(6, db)
+    g6.g.create_plot_6()
+
+    # Resting ECG
+    g7 = g.graph(7, db)
+    g7.g.create_plot_7()
+
+    # Max Heart Rate
+    g8 = g.graph(8, db)
+    g8.g.create_plot_8()
+
+    # Exercise Induced Angina
+    g9 = g.graph(9, db)
+    g9.g.create_plot_9()
+
+    # Oldpeak
+
+
+    # Slope
+    g11 = g.graph(11,db)
+    g11.g.create_plot_11()
+
+    # Number Vessels Coloured by Flouroscopy
+    g12 = g.graph(12,db)
+    g12.g.create_plot_12()
+
+    # Thalassemia
+    g13 = g.graph(13, db)
+    g13.g.g.create_plot_13()

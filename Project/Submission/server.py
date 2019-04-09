@@ -31,7 +31,10 @@ def graph(number=None):
         # Note: ensure the image is saved in /static/images, simply set a function to return the name of the image
         # associated
         my_image = helper.image_name_finder(number)
-        return render_template("graph.html", graph_name = graph_name, image_name = my_image)
+        if not my_image:
+            abort(404)
+        else:
+            return render_template("graph.html", graph_name = graph_name, image_name = my_image)
 
 @app.route('/factors')
 def factors():
