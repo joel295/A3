@@ -231,7 +231,7 @@ class Predictor():
         plt.title('Importance of Each Feature')
         plt.ylabel('Feature Importance (%)')
         plt.xlabel('Feature')
-        plt.savefig('Server/static/images/featureImportance.png')
+        plt.savefig('static/images/featureImportance.png')
         plt.close(fig)
 
 
