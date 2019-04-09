@@ -46,18 +46,13 @@ def test_list():
         result.append([i,graph_dict[i],i*2])
     return result
 
-def create_plot():
-    data = {'a': np.arange(50), 'c': np.random.randint(0, 50, 50),'d': np.random.randn(50)}
-    data['b'] = data['a'] + 10 * np.random.randn(50)
-    data['d'] = np.abs(data['d']) * 100
-    #plt.scatter('a', 'b', c='c', s='d', data=data)
-    #plt.xlabel('entry a')
-    #plt.ylabel('entry b')
-    #plt.savefig('static/images/test.png')
-
 # takes the graph number and returns the string of the graph name
-def image_name_finder(number):
-    image_name = 'test'
+def image_name_finder(number = None):
+    print(number)
+    if (number != None):
+        image_name = 'graph' + str(number)
+    else:
+        image_name = 'test'
     return image_name
 
 #create_plot()

@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, abort
-import server_helper as helper
 import io
 
 #startups pre front end setup
+import server_helper as helper
 print(f' * Database located @ {helper.db.database_name}')
 
 app = Flask(__name__)
@@ -25,13 +25,18 @@ def graph(number=None):
         graph_name = helper.graph_dict[number]
     except (ValueError, KeyError):
         abort(404)
-    if not 1 <= number <= 14:
+    if not 3 <= number <= 13:
+        abort(404)
+    elif number == 10:
         abort(404)
     else:
         # Note: ensure the image is saved in /static/images, simply set a function to return the name of the image
         # associated
         my_image = helper.image_name_finder(number)
-        return render_template("graph.html", graph_name = graph_name, image_name = my_image)
+        if not my_image:
+            abort(404)
+        else:
+            return render_template("graph.html", graph_name = graph_name, image_name = my_image)
 
 @app.route('/factors')
 def factors():

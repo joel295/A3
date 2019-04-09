@@ -1,13 +1,14 @@
 #import matplotlib.pyplot as plt
 import numpy as np
-import database
+import database, sqlite3
 import predictor as p
+import graph as g
 
 graph_dict = {1:'Age',2:'Sex',3:'Chest Pain Type',4:'Resting Blood Pressure',\
-    5:'Serum Cholestrol',6:'Fasting Blood Sugar',7:'Resting ECG Results',\
-        8:'Max. Heart Rate', 9:'Exercise Induced Angina', 10:'oldpeak',\
-            11:'Peak Exercise ST slope',12:'Major vessels by flourosopy',\
-                13:'thal',14:'target'}
+    5:'Serum Cholesterol',6:'Fasting Blood Sugar',7:'Resting ECG Results',\
+        8:'Maximum Heart Rate', 9:'Exercise Induced Angina', 10:'Oldpeak',\
+            11:'Peak Exercise ST Slope',12:'Major Vessels by Flouroscopy',\
+                13:'Thalassemia',14:'target'}
 
 def validate_result(result):
     ## check the values being used here
@@ -48,18 +49,12 @@ def test_list():
         result.append([i,graph_dict[i],i*2])
     return result
 
-def create_plot():
-    data = {'a': np.arange(50), 'c': np.random.randint(0, 50, 50),'d': np.random.randn(50)}
-    data['b'] = data['a'] + 10 * np.random.randn(50)
-    data['d'] = np.abs(data['d']) * 100
-    #plt.scatter('a', 'b', c='c', s='d', data=data)
-    #plt.xlabel('entry a')
-    #plt.ylabel('entry b')
-    #plt.savefig('static/images/test.png')
-
 # takes the graph number and returns the string of the graph name
 def image_name_finder(number):
-    image_name = 'test'
+    if (number != None):
+        image_name = 'graph' + str(number)
+    else:
+        return False
     return image_name
 
 def database_startup():
