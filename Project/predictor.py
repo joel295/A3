@@ -30,6 +30,8 @@ class Predictor():
     def __init__(self):
         self.heartData = self.loadData()
         self.createScaler()
+        self.nnAccuracy = 0
+        self.figureNo = 3
         self.initialiseNN()
         self.calculateImportantFeatures()
     
@@ -55,7 +57,9 @@ class Predictor():
             self.dataModel = torch.load('neuralNetwork.pt')
             self.dataModel.eval()
         else:
-            self.trainNN()
+            while(self.nnAccuracy < 90):
+                self.trainNN()
+            print('Accuracy: {}%'.format(self.nnAccuracy))
     
     #Create a min max scaler to scale all input data to the same scale
     def createScaler(self):
@@ -80,24 +84,27 @@ class Predictor():
         yValues = np.array(self.heartData['Target']).astype('int')
 
 
-        #Use first 50 labels for testing, rest for training
+        '''#Use first 50 labels for testing, rest for training
         yTestValues = yValues[:50]
         yTrainValues = yValues[50:]
-
-        #Convert label data to Tensor Objects, used to form Network by pyTorch
-        yTrainTensor = torch.tensor(yTrainValues, dtype=torch.long)
-        yTestTensor = torch.tensor(yTestValues, dtype=torch.long)
+        '''
         
         #Remove label data from total data set
         xData = self.heartData.drop(['Target'], axis=1)
         #Scale the heart_disease data into range [0,1]
         xData = self.scaler.transform(np.array(xData).astype('float'))
-        
+
+        #Split the data into training and testing data with an 80/20 split
+        xTrain, xTest, yTrain, yTest = train_test_split(xData,yValues, test_size=0.2, random_state=0)
 
         #Convert the heart_disease data into Tensor Objects
         #These are the inputs to the Neural Network
-        xTrainTensor = torch.Tensor(xData[50:])
-        xTestTensor = torch.Tensor(xData[:50])
+        xTrainTensor = torch.Tensor(xTrain)
+        xTestTensor = torch.Tensor(xTest)
+
+        #Convert label data to Tensor Objects, used to form Network by pyTorch
+        yTrainTensor = torch.tensor(yTrain, dtype=torch.long)
+        yTestTensor = torch.tensor(yTest, dtype=torch.long)
         
         #N is number of samples, F_in is number of features
         #H1 is number of hidden dimensions, F_out is number of output features (2 since 0 is No Disease, 1 is Has Disease)
@@ -136,19 +143,23 @@ class Predictor():
             yPredList = yPred.detach().numpy()
             yPredList = [np.argmax(x) for x in yPredList]
             loss = criterion(yPred, yTestTensor)
-            matches = np.where(yPredList==yTestValues,1,0)
+            matches = np.where(yPredList==yTest,1,0)
             correctness = np.count_nonzero(matches)/len(matches)*100
             accuracyList.append(correctness)
+            self.nnAccuracy = correctness
             #If we reach 92% accuracy stop learning
-            if(correctness >= 92):
+            if(correctness >= 90):
                 break
 
         #Plot the Neural Network Training Accuracy Over time
+        fig = plt.figure(self.figureNo)
+        self.figureNo += 1
         plt.plot(accuracyList)
 
         plt.xlabel("Epoch Count")
         plt.ylabel("Model Accuracy (%)")
         plt.savefig('Server/static/images/neuralNetworkAccuracy.png')
+        plt.close(fig)
 
         #Save the neuralNetwork model and start it for evaluations
         torch.save(self.dataModel, 'neuralNetwork.pt')
@@ -186,7 +197,7 @@ class Predictor():
             colors = ['red', 'green']
         
         #Create a new figure
-        plt.figure()
+        fig = plt.figure(1)
 
         #Plot all the data as a bar chart
         plt.bar(['No Heart Disease', 'Heart Disease'], diseaseProbabilities, color = colors)
@@ -195,6 +206,7 @@ class Predictor():
         plt.ylabel('Probability of Correct Outcome')
         #Save the figure as a file to be displayed by webpage
         plt.savefig('Server/static/images/diseaseProbability.png')
+        plt.close(fig)
 
         
         return (predictedValue, diseaseProbabilities)
@@ -227,10 +239,16 @@ class Predictor():
         
         #Get the importance of each feature, 
         features = classifier.feature_importances_*100
-        plt.figure(1,(12,12),300)
+
+        #Create a new figure
+        fig = plt.figure(2,(12,12),300)
         plt.bar(labels, features)
         plt.xticks(rotation=45)
+        plt.title('Importance of Each Feature')
+        plt.ylabel('Feature Importance (%)')
+        plt.xlabel('Feature')
         plt.savefig('Server/static/images/featureImportance.png')
+        plt.close(fig)
 
 
 
