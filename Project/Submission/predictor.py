@@ -28,6 +28,7 @@ class Predictor():
     def __init__(self):
         self.heartData = self.loadData()
         self.createScaler()
+        self.calculateImportantFeatures()
         self.initialiseNN()
     
     #Load in the heart data from the database, swap 
