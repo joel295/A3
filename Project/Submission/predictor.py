@@ -4,8 +4,6 @@ Group: The Cherry Pies
 
 Module that defines the template for predicitng whether or not
 a person has heart disease or not.
-2 methods are provided, one is a Neural Network and the Other is a
-Random Forest.
 '''
 
 from database import *
@@ -196,6 +194,45 @@ class Predictor():
 
         
         return (predictedValue, diseaseProbabilities)
+
+    def calculateImportantFeatures(self):
+        '''
+        Using a Random Forest, calculate the importance of each feature variable.
+        Creates a png plot, 'featureImportance.png', with these feature values.
+        '''
+
+        #Store both the attribute values, X, and the labels for these attributes
+        X = self.heartData.drop(['Target'], 1)
+        labels = [' '.join(c.split('_')) for c in X.columns]
+
+        #Store all the target labels
+        y = self.heartData['Target']
+
+        #Split the data into training and testing data with an 80/20 split
+        xTrain, xTest, yTrain, yTest = train_test_split(X,y, test_size=0.2, random_state=0)
+
+        #Use Standard Distibution Scaling to scale data
+        scaler = StandardScaler()
+        xTrain = scaler.fit_transform(xTrain)
+        xTest = scaler.fit_transform(xTest)
+
+        #Create a Random Forest with 100 Trees of depth 3 max
+        classifier = RandomForestClassifier(max_depth=3, random_state=0, n_estimators=100)
+        #Fit the model to our training data
+        classifier.fit(xTrain, yTrain)
+        
+        #Get the importance of each feature, 
+        features = classifier.feature_importances_*100
+
+        #Create a new figure
+        fig = plt.figure(2,(12,12),300)
+        plt.bar(labels, features)
+        plt.xticks(rotation=45)
+        plt.title('Importance of Each Feature')
+        plt.ylabel('Feature Importance (%)')
+        plt.xlabel('Feature')
+        plt.savefig('Server/static/images/featureImportance.png')
+        plt.close(fig)
 
 
 
