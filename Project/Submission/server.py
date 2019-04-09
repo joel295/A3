@@ -53,8 +53,13 @@ def predictor():
         if error:
             return render_template("incorrect_input.html", error=error)
         else:
-            prediction = helper.predicted(result)
-            return render_template("predict_result.html", predict=10)#=prediction)
+            prediction, probabilities = helper.predicted(result)
+            predicitonString = ""
+            if(prediction == 0):
+                predicitonString = "You don't have heart disease, which is a shame."
+            else:
+                predicitonString = "You do have heart disease, when's the funeral?"
+            return render_template("predict_result.html", predict=predicitonString)
     return render_template("predictor.html")
 
 @app.route('/other')
