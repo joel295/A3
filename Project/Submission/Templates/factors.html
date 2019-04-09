@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Potential Important Factors{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <p class="lead">
+                PCA Analysis of the Contributing Factors
+        </p>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <figure>
+                <img class="img-fluid mx-auto d-block" src="static/images/test.png" alt="test">
+            </figure>
+        </div>
+    </div>
+    
+    <div class="w-100"></div>
+    <div class="row"><br></div>
+    <div class="row">
+        <p class="lead">
+            Classification of Factors
+        </p>
+    </div>
+    <div class="container-fluid">
+        <div class="row">    
+            <table class="table table-striped table-bordered table-hover table-sm">
+                <thead>
+                    <tr>
+                    <th class="text-center" style="width: 10%">Rank</th>
+                    <th class="text-center" style="width: 30%">Factor</th>
+                    <th class="text-center" style="width: 60%">Score/Why?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in table %}
+                    <tr>
+                        {% for value in row %}
+                        <td class="text-center">{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

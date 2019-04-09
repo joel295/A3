@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <p class="lead">
+            Hmmm that input data doesn't look quite right!
+        </p>
+    </div>
+    <div class="row">
+        <img class="img-fluid mx-auto" src="static/images/dirty-data.png" alt="That's some dirty input you got there!">
+    </div>
+    <div class="row">
+        <p class="lead">You have entered the following fields incorrectly:</p>
+    </div>
+    <div class="row">
+        <ul>
+        {% for row in error %}
+            <li>{{ row }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="row">
+        <p class="lead">
+            Perhaps you should try again with correct input.
+        </p>
+    </div>
+    <div class="row">
+        <a class="btn btn-primary btn-lg" href="/predictor" role="button">Return to Predictor</a>
+    </div>
+</div>
+{% endblock %}
