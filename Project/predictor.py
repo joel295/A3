@@ -31,6 +31,7 @@ class Predictor():
         self.heartData = self.loadData()
         self.createScaler()
         self.initialiseNN()
+        self.calculateImportantFeatures()
     
     #Load in the heart data from the database, swap 
     def loadData(self):
@@ -59,7 +60,7 @@ class Predictor():
     #Create a min max scaler to scale all input data to the same scale
     def createScaler(self):
         #Need to scale data to uniform [0,1] range
-        self.scaler = MinMaxScaler()
+        self.scaler = StandardScaler()
 
         #Remove label data from total data set
         xData = self.heartData.drop(['Target'], axis=1)
@@ -142,13 +143,14 @@ class Predictor():
             if(correctness >= 92):
                 break
 
-
+        #Plot the Neural Network Training Accuracy Over time
         plt.plot(accuracyList)
 
         plt.xlabel("Epoch Count")
         plt.ylabel("Model Accuracy (%)")
-        plt.savefig('neuralNetworkAccuracy.png')
+        plt.savefig('Server/static/images/neuralNetworkAccuracy.png')
 
+        #Save the neuralNetwork model and start it for evaluations
         torch.save(self.dataModel, 'neuralNetwork.pt')
         self.dataModel.eval()
 
@@ -190,12 +192,45 @@ class Predictor():
         plt.bar(['No Heart Disease', 'Heart Disease'], diseaseProbabilities, color = colors)
         plt.title('Heart Disease Prediciton')
         plt.xlabel('Outcome Types')
-        plt.ylabel('Probability of Correctnes')
+        plt.ylabel('Probability of Correct Outcome')
         #Save the figure as a file to be displayed by webpage
-        plt.savefig('diseaseProbability.png')
+        plt.savefig('Server/static/images/diseaseProbability.png')
 
         
         return (predictedValue, diseaseProbabilities)
+
+    def calculateImportantFeatures(self):
+        '''
+        Using a Random Forest, calculate the importance of each feature variable.
+        Creates a png plot, 'featureImportance.png', with these feature values.
+        '''
+
+        #Store both the attribute values, X, and the labels for these attributes
+        X = self.heartData.drop(['Target'], 1)
+        labels = [' '.join(c.split('_')) for c in X.columns]
+
+        #Store all the target labels
+        y = self.heartData['Target']
+
+        #Split the data into training and testing data with an 80/20 split
+        xTrain, xTest, yTrain, yTest = train_test_split(X,y, test_size=0.2, random_state=0)
+
+        #Use Standard Distibution Scaling to scale data
+        scaler = StandardScaler()
+        xTrain = scaler.fit_transform(xTrain)
+        xTest = scaler.fit_transform(xTest)
+
+        #Create a Random Forest with 100 Trees of depth 3 max
+        classifier = RandomForestClassifier(max_depth=3, random_state=0, n_estimators=100)
+        #Fit the model to our training data
+        classifier.fit(xTrain, yTrain)
+        
+        #Get the importance of each feature, 
+        features = classifier.feature_importances_*100
+        plt.figure(1,(12,12),300)
+        plt.bar(labels, features)
+        plt.xticks(rotation=45)
+        plt.savefig('Server/static/images/featureImportance.png')
 
 
 
@@ -205,8 +240,7 @@ To Predict an Outcome first create a Predictor object (1)
 Then call obj.nnPredict(List) (2) to predict the outcome of Having Heart Disease
 Pass in a List of 13 Attribute Values to nnPredict()
 
-Example:
-attrList = [67.0,1.0,4.0,125.0,254.0,1.0,0.0,163.0,0.0,0.2,2.0,2.0,7.0]
+Example:'''
+attrList = [62.0,1.0,4.0,120.0,267.0,0.0,0.0,99.0,1.0,1.8,2.0,2.0,7.0]
 predictor = Predictor()
 predictedValue, probabilityList = predictor.nnPredict(attrList)
-'''
