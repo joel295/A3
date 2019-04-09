@@ -146,6 +146,7 @@ class Predictor():
         plt.xlabel("Epoch Count")
         plt.ylabel("Model Accuracy (%)")
         plt.savefig('static/images/neuralNetworkAccuracy.png')
+        plt.close()
 
         torch.save(self.dataModel, 'neuralNetwork.pt')
         self.dataModel.eval()
@@ -182,7 +183,7 @@ class Predictor():
             colors = ['red', 'green']
         
         #Create a new figure
-        plt.figure()
+        fig = plt.figure()
 
         #Plot all the data as a bar chart
         plt.bar(['No Heart Disease', 'Heart Disease'], diseaseProbabilities, color = colors)
@@ -191,6 +192,7 @@ class Predictor():
         plt.ylabel('Probability of Correctnes')
         #Save the figure as a file to be displayed by webpage
         plt.savefig('static/images/diseaseProbability.png')
+        plt.close(fig)
 
         
         return (predictedValue, diseaseProbabilities)

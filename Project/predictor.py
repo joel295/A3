@@ -192,7 +192,7 @@ class Predictor():
         plt.xlabel('Outcome Types')
         plt.ylabel('Probability of Correctnes')
         #Save the figure as a file to be displayed by webpage
-        plt.savefig('diseaseProbability.png')
+        #plt.savefig('diseaseProbability.png')
 
         
         return (predictedValue, diseaseProbabilities)

@@ -66,11 +66,10 @@ db = database_startup()
 
 def result_converter(dict_result):
     result = []
-    for val in dict_result:
-        print(dict_result[val])
-        # Aiden, can you convert to the values you expect here
-        # then append to result and it should then take care of it
-        # data should be already validated
+    allLabels = ['age', 'sex', 'chest_pain_type', 'resting_blood_pressure', 'serum_cholestoral', 'fasting_bs', 'resting_ecg','max_heart', 'ei_angina', 'oldpeak', 'peak_est', 'colours', 'thal']
+
+    for label in allLabels:
+        result.append(float(dict_result[label]))
     return result
 
 def predicted(dict_result):
