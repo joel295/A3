@@ -64,7 +64,7 @@ class Predictor():
     #Create a min max scaler to scale all input data to the same scale
     def createScaler(self):
         #Need to scale data to uniform [0,1] range
-        self.scaler = StandardScaler()
+        self.scaler = MinMaxScaler()
 
         #Remove label data from total data set
         xData = self.heartData.drop(['Target'], axis=1)
