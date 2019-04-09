@@ -62,5 +62,5 @@ def other():
     return render_template("other.html")
 
 
-
+app.run(debug=True)
 
