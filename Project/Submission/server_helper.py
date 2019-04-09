@@ -5,10 +5,10 @@ import predictor as p
 import graph as g
 
 graph_dict = {1:'Age',2:'Sex',3:'Chest Pain Type',4:'Resting Blood Pressure',\
-    5:'Serum Cholestrol',6:'Fasting Blood Sugar',7:'Resting ECG Results',\
-        8:'Max. Heart Rate', 9:'Exercise Induced Angina', 10:'oldpeak',\
-            11:'Peak Exercise ST slope',12:'Major vessels by flourosopy',\
-                13:'thal',14:'target'}
+    5:'Serum Cholesterol',6:'Fasting Blood Sugar',7:'Resting ECG Results',\
+        8:'Maximum Heart Rate', 9:'Exercise Induced Angina', 10:'Oldpeak',\
+            11:'Peak Exercise ST Slope',12:'Major Vessels by Flouroscopy',\
+                13:'Thalassemia',14:'target'}
 
 def validate_result(result):
     ## check the values being used here
