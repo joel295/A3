@@ -1,5 +1,6 @@
 import sqlite3
 import pandas
+import numpy
 
 # class to perform database operations
 
@@ -62,7 +63,20 @@ class server_database:
             print(e)
         conn.commit()
         conn.close()
-    
+
+    def load_all_rows(self):
+        conn = sqlite3.connect(self.database_name)
+        select = "SELECT * from Heart"
+        
+        try:
+            heartData = pandas.read_sql(select,conn)
+        except sqlite3.Error as e:
+            print(e)
+
+        conn.commit()
+        conn.close()
+        return heartData
+
     def delete_table(self):
         conn = sqlite3.connect(self.database_name)
         c = conn.cursor()
@@ -102,6 +116,9 @@ class server_database:
         #convert appropriate columns to integers - sorry about magic numbers
         df.iloc[:,[0,1,2,5,6,8,10,11,12,13]] = df.iloc[:,[0,1,2,5,6,8,10,11,12,13]].apply(pandas.to_numeric, downcast='integer')
         
+        #Column 13 - Target, Change all non-zeros to value 1 (has heart disease)
+        df.iloc[:,13] = numpy.where(df.iloc[:, 13] == 0, 0, 1)
+
         # put tuples into rows, types converted from numpy variants to standard python types - did this to avoid sqlite3 throwing data integrity error
         # index from dataframe being used as primary key
         rows = [tuple(x) for x in df.to_records(index=True).tolist()]
