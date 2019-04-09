@@ -2,7 +2,7 @@
 Visualization for Heart data attributes 3-13
 Creates graph<number>.png files
 '''
-import os, sys, inspect
+import os, sys, inspect, sqlite3
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -12,12 +12,9 @@ CURR_DIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe(
 PARENT_DIR = os.path.dirname(CURR_DIR)
 sys.path.insert(0, PARENT_DIR)
 
-from database import *
-
 IMG_PATH = PARENT_DIR + '/Submission/static/images/'
 
 class graph:
-
 
     def __init__(self, attr_num, db_conn):
         self.name = 'Graph_' + str(attr_num)
@@ -25,7 +22,7 @@ class graph:
 
 
     # Chest Pain Type
-    def create_plot_3(self):
+    def create_plot_3(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -73,7 +70,7 @@ class graph:
         
 
     # Resting Blood Pressure
-    def create_plot_4(self):
+    def create_plot_4(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -121,7 +118,7 @@ class graph:
 
 
     # Serum Cholesterol
-    def create_plot_5(self):
+    def create_plot_5(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -171,7 +168,7 @@ class graph:
 
 
     # Fasting Blood Sugar > 120
-    def create_plot_6(self):
+    def create_plot_6(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -230,7 +227,7 @@ class graph:
 
 
     # Resting ECG
-    def create_plot_7(self):
+    def create_plot_7(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -276,7 +273,7 @@ class graph:
 
 
     # Max Heart Rate
-    def create_plot_8(self):
+    def create_plot_8(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -324,7 +321,7 @@ class graph:
 
 
     # Exercice Induced Angina
-    def create_plot_9(self):
+    def create_plot_9(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -383,7 +380,7 @@ class graph:
 
 
     # Slope
-    def create_plot_11(self):
+    def create_plot_11(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -442,7 +439,7 @@ class graph:
 
 
     # Number of Vessels Coloured by Fluroscopy
-    def create_plot_12(self):
+    def create_plot_12(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -489,7 +486,7 @@ class graph:
 
 
     # Thalassemia
-    def create_plot_13(self):
+    def create_plot_13(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)

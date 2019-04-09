@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request, abort
-import server_helper as helper
 import io
 
 #startups pre front end setup
+import server_helper as helper
 print(f' * Database located @ {helper.db.database_name}')
-helper.create_graphs(helper.db)
 
 app = Flask(__name__)
 
