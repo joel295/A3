@@ -1,6 +1,6 @@
 #import matplotlib.pyplot as plt
 import numpy as np
-import database
+import database, sqlite3
 import predictor as p
 import graph as g
 
@@ -79,48 +79,49 @@ def predicted(dict_result):
     result = predictor.nnPredict(data)
     return result
 
-def create_graphs(db):
+def create_graphs(db_object):
     # Create graphs and save files
-
+    db = sqlite3.connect(db_object.database_name)
     # Chest pain type
     g3 = g.graph(3, db)
-    g3.g.create_plot_3()
+    g3.create_plot_3()
 
     # Resting Blood Pressure
     g4 = g.graph(4, db)
-    g4.g.create_plot_4()
+    g4.create_plot_4()
 
     # Serum Cholestrol
     g5 = g.graph(5, db)
-    g5.g.create_plot_5()
+    g5.create_plot_5()
 
     # Fasting Blood Sugar
     g6 = g.graph(6, db)
-    g6.g.create_plot_6()
+    g6.create_plot_6()
 
     # Resting ECG
     g7 = g.graph(7, db)
-    g7.g.create_plot_7()
+    g7.create_plot_7()
 
     # Max Heart Rate
     g8 = g.graph(8, db)
-    g8.g.create_plot_8()
+    g8.create_plot_8()
 
     # Exercise Induced Angina
     g9 = g.graph(9, db)
-    g9.g.create_plot_9()
+    g9.create_plot_9()
 
     # Oldpeak
 
 
     # Slope
     g11 = g.graph(11,db)
-    g11.g.create_plot_11()
+    g11.create_plot_11()
 
     # Number Vessels Coloured by Flouroscopy
     g12 = g.graph(12,db)
-    g12.g.create_plot_12()
+    g12.create_plot_12()
 
     # Thalassemia
     g13 = g.graph(13, db)
-    g13.g.g.create_plot_13()
+    g13.create_plot_13()
+    db.close()

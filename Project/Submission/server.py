@@ -4,6 +4,7 @@ import io
 
 #startups pre front end setup
 print(f' * Database located @ {helper.db.database_name}')
+helper.create_graphs(helper.db)
 
 app = Flask(__name__)
 
