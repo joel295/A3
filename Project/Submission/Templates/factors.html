@@ -5,18 +5,21 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <p class="lead">
-                PCA Analysis of the Contributing Factors
-        </p>
+        <div class="col-1"></div>
+        <div class="col-10">
+            <img class="img-fluid" src="static/images/featureImportance.png">
+        </div>
+        <div class="col-1"></div>
     </div>
     <div class="row">
-        <div class="col-12">
-            <figure>
-                <img class="img-fluid mx-auto d-block" src="static/images/featureImportance.png" alt="test">
-            </figure>
-        </div>
+            <p class="lead">
+                    PCA Analysis of the Contributing Factors
+            </p>
     </div>
-    
+</div>
+
+
+    <!--
     <div class="w-100"></div>
     <div class="row"><br></div>
     <div class="row">
@@ -46,5 +49,6 @@
             </table>
         </div>
     </div>
-</div>
+    -->
+
 {% endblock %}

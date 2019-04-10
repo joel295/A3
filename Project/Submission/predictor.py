@@ -146,7 +146,7 @@ class Predictor():
 
         plt.xlabel("Epoch Count")
         plt.ylabel("Model Accuracy (%)")
-        plt.savefig('static/images/neuralNetworkAccuracy.png')
+        plt.savefig('static/images/neuralNetworkAccuracy.png',bbox_inches='tight')
         plt.close()
 
         torch.save(self.dataModel, 'neuralNetwork.pt')
@@ -192,7 +192,7 @@ class Predictor():
         plt.xlabel('Outcome Types')
         plt.ylabel('Probability of Correctnes')
         #Save the figure as a file to be displayed by webpage
-        plt.savefig('static/images/diseaseProbability.png')
+        plt.savefig('static/images/diseaseProbability.png',bbox_inches='tight')
         plt.close(fig)
 
         
@@ -234,7 +234,7 @@ class Predictor():
         plt.title('Importance of Each Feature')
         plt.ylabel('Feature Importance (%)')
         plt.xlabel('Feature')
-        plt.savefig('static/images/featureImportance.png')
+        plt.savefig('static/images/featureImportance.png',bbox_inches='tight')
         plt.close(fig)
 
 
