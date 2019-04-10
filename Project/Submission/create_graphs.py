@@ -34,7 +34,8 @@ def create_graphs(db):
     g9.create_plot_9(db)
 
     # Oldpeak
-
+    g10 = g.graph(10, db)
+    g10.create_plot_10(db)
 
     # Slope
     g11 = g.graph(11,db)
