@@ -459,7 +459,7 @@ class graph:
         ax2.set_xlabel('')
 
         # Y-Axis
-        ax1.set_ylim(0,8)
+        ax1.set_ylim(0.8)
         ax2.set_ylim(0.8)
         ax1.set_ylabel('Oldpeak')
         ax2.set_ylabel('')
