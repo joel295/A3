@@ -27,8 +27,6 @@ def graph(number=None):
         abort(404)
     if not 3 <= number <= 13:
         abort(404)
-    elif number == 10:
-        abort(404)
     else:
         # Note: ensure the image is saved in /static/images, simply set a function to return the name of the image
         # associated
