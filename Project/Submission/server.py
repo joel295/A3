@@ -6,6 +6,7 @@ import server_helper as helper
 print(f' * Database located @ {helper.db.database_name}')
 
 app = Flask(__name__)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 10
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -85,6 +86,6 @@ def other(number=None):
         else:
             return render_template("extras.html", graph_name = graph_name, image_name = my_image)
 
-
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
 
