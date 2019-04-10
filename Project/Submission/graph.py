@@ -319,53 +319,6 @@ class graph:
         # Save image
         plt.savefig(IMG_PATH + 'graph8.png')
 
-# Oldpeak
-    def create_plot_10(self,db):
-
-        # Get data
-        conn = sqlite3.connect(db.database_name)
-        df = pd.read_sql_query('SELECT Age, Sex, Oldpeak FROM Heart;', conn)
-
-        # Divide into male and female
-        male_df = df.query('Sex == 1')
-        female_df = df.query('Sex == 0')
-
-        # Scatter plots
-        fig, axes = plt.subplots(nrows=1, ncols=2)
-        ax1 = sns.regplot(x=male_df['Age'], y=male_df['Oldpeak'], label='male', ax=axes[0])
-        ax2 = sns.regplot(x=female_df['Age'], y=female_df['Oldpeak'], label='female',
-                color='red', ax=axes[1])
-
-        # Format Plot
-
-        # Add titles
-        fig.suptitle('Oldpeak\n')
-        ax1.set_title('Male')
-        ax2.set_title('Female')
-        fig.text(x=0.54, y=0.04, horizontalalignment='center', s='Age', size=11)
-
-        # X-Axis
-        ax1.set_xlim(25,84)
-        ax2.set_xlim(25,84)
-        ax1.set_xticks(range(35, 84, 10))
-        ax2.set_xticks(range(35, 84, 10))
-        ax1.set_xlabel('')
-        ax2.set_xlabel('')
-
-        # Y-Axis
-        ax1.set_ylim(65,219)
-        ax2.set_ylim(65,219)
-        ax1.set_ylabel('Oldpeak')
-        ax2.set_ylabel('')
-        ax2.set_yticklabels('')
-
-        # Layout
-        fig.tight_layout()
-        fig.subplots_adjust(top=0.85, bottom=0.13)
-
-        # Save image
-        plt.savefig(IMG_PATH + 'graph10.png')
-
 
     # Exercice Induced Angina
     def create_plot_9(self,db):
