@@ -378,6 +378,7 @@ class graph:
         # Save image
         plt.savefig(IMG_PATH + 'graph9.png')
 
+
     # Oldpeak
     def create_plot_10(self,db):
 
@@ -412,8 +413,8 @@ class graph:
         ax2.set_xlabel('')
 
         # Y-Axis
-        ax1.set_ylim(0.8)
-        ax2.set_ylim(0.8)
+        ax1.set_ylim(0,8)
+        ax2.set_ylim(0,8)
         ax1.set_ylabel('Oldpeak')
         ax2.set_ylabel('')
         ax2.set_yticklabels('')
