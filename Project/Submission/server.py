@@ -60,9 +60,30 @@ def predictor():
             return render_template("predict_result.html", predict=predicitonString)
     return render_template("predictor.html")
 
-@app.route('/other')
-def other():
-    return render_template("other.html")
+@app.route('/extras')
+@app.route('/extras<int:number>')
+def other(number=None):
+    if number == None:
+        return render_template("other.html")
+    try:
+        number = int(number)
+        graph_name = helper.graph_dict[number]
+    except (ValueError, KeyError):
+        abort(404)
+    if not 3 <= number <= 13:
+        abort(404)
+    else:
+        # Note: ensure the image is saved in /static/images, simply set a function to return the name of the image
+        # associated
+        ''' 
+        Create a new function in server_helper to get the name of the graph
+        See the function Kaylen wrote for a guide
+        '''
+        my_image = helper.image_name_finder(number)
+        if not my_image:
+            abort(404)
+        else:
+            return render_template("extras.html", graph_name = graph_name, image_name = my_image)
 
 
 app.run(debug=True)

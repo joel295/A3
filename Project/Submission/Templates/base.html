@@ -30,7 +30,7 @@
         <a href="/graph" class="list-group-item {%- if request.path == "/graph" %} active{%- elif active_page == 'graph' %} active {% endif %}" list-group-item-action">Visualisations</a>
         <a href="/factors" class="list-group-item {%- if request.path == "/factors" %} active{% endif %}" list-group-item-action">Factor Ranking</a>
         <a href="/predictor" class="list-group-item {%- if request.path == "/predictor" %} active{% endif %}" list-group-item-action">Prediction</a>
-        <a href="/other" class="list-group-item {%- if request.path == "/other" %} active{% endif %}" list-group-item-action">Other</a>
+        <a href="/extras" class="list-group-item {%- if request.path == "/other" %} active{%- elif active_page == 'extras' %} active {% endif %}" list-group-item-action">Graphs by Heart Disease</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->

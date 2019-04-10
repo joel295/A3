@@ -1,14 +1,39 @@
 {% extends 'base.html' %}
 
-{% block title %}Other Stuff{% endblock %}
+{% block title %}
+  {%- if request.path == "/extras" %}
+  Graphs by Heart Disease
+  {%- else %}
+    {% block graphtitle %}{% endblock %}
+  {% endif %}
+{% endblock %}
 
+{% block navbar %}
+<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Choose your chart
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/extras3">Chest Pain Type</a>
+          <a class="dropdown-item" href="/extras4">Resting Blood Pressure</a>
+          <a class="dropdown-item" href="/extras5">Serum Cholestrol</a>
+          <a class="dropdown-item" href="/extras6">Fasting Blood Sugar</a>
+          <a class="dropdown-item" href="/extras7">Resting ECG Results</a>
+          <a class="dropdown-item" href="/extras8">Max. Heart Rate</a>
+          <a class="dropdown-item" href="/extras9">Exercise Induced Angina</a>
+          <a class="dropdown-item" href="/extras10">Oldpeak</a>
+          <a class="dropdown-item" href="/extras11">Peak Exercise ST slope</a>
+          <a class="dropdown-item" href="/extras12">Major Vessels by Flourosopy</a>
+          <a class="dropdown-item" href="/extras13">Thalassemia</a>
+        </div>
+      </li>
+{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-        <p class="lead">
-            Place to collate any extra mark or other ideas type stuff
-        </p>
-    </div>
-</div>
+  {%- if request.path == "/extras" %}
+    <h2>Welcome to our extra visualisations page!</h2>
+    <p class="lead">Choose a view from the top right to explore.</p>
+  {%- else %}
+    {% block graphcontent %}{% endblock %}
+  {% endif %}
 {% endblock %}

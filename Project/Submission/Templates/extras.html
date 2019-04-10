@@ -1,0 +1,19 @@
+{% extends 'other.html' %}
+{% set active_page = 'extras' %}
+
+{% block graphtitle %}Extras Visualisation {{graph_name}}{% endblock %}
+
+{% block graphcontent %}
+<div class="container-fluid">
+  <div class="row">
+    <p class="lead">This is the {{graph_name}} by heart disease visualisation page.</p>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <figure>
+        <img class="img-fluid mx-auto d-block" src="static/images/{{image_name}}.png" alt="test">
+      </figure>
+    </div>
+  </div>
+</div>
+{% endblock %}
