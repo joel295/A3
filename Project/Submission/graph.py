@@ -28,6 +28,9 @@ class graph:
         conn = sqlite3.connect(db.database_name)
         df = pd.read_sql_query('SELECT Age, Sex, Chest_Pain_Type FROM Heart;', conn)
 
+        #set male sex value to be less than 0 so results displayed correctly for each sex in graph
+        df['Sex'].values[(df['Sex'].values == 1)] = -1 
+
         ## Plot histograms male and female by type
 
         sns.set_style("darkgrid")               # set the background of the charts
@@ -233,6 +236,9 @@ class graph:
         conn = sqlite3.connect(db.database_name)
         df = pd.read_sql_query('SELECT Age, Sex, Resting_ECG FROM Heart;', conn)
 
+        #set male sex value to be less than 0 so results displayed correctly for each sex in graph
+        df['Sex'].values[(df['Sex'].values == 1)] = -1 
+
         ## Plot histograms male and female by type
 
         sns.set_style("darkgrid")               # set the background of the charts
@@ -384,7 +390,7 @@ class graph:
 
         # Get data
         conn = sqlite3.connect(db.database_name)
-        df = pd.read_sql_query('SELECT Age, Sex, Oldpeak FROM Heart;', conn)
+        df = pd.read_sql_query('SELECT Age, Sex, Oldpeak, FROM Heart;', conn)
 
         # Divide into male and female
         male_df = df.query('Sex == 1')
@@ -424,7 +430,7 @@ class graph:
         fig.subplots_adjust(top=0.85, bottom=0.13)
 
         # Save image
-        plt.savefig(IMG_PATH + 'graph10.png')
+        plt.savefig(IMG_PATH + 'graph10.png', bbox_inches='tight')
 
 
 
@@ -495,6 +501,9 @@ class graph:
         conn = sqlite3.connect(db.database_name)
         df = pd.read_sql_query('SELECT Age, Sex, Major_Vessels FROM Heart;', conn)
 
+        #set male sex value to be less than 0 so results displayed correctly for each sex in graph
+        df['Sex'].values[(df['Sex'].values == 1)] = -1 
+
         ## Plot histograms male and female by type
 
         sns.set_style("darkgrid")               # set the background of the charts
@@ -542,6 +551,9 @@ class graph:
         conn = sqlite3.connect(db.database_name)
         df = pd.read_sql_query('SELECT Age, Sex, Thal FROM Heart;', conn)
 
+        #set male sex value to be less than 0 so results displayed correctly for each sex in graph
+        df['Sex'].values[(df['Sex'].values == 1)] = -1 
+        
         ## Plot histograms male and female by type
 
         sns.set_style("darkgrid")               # set the background of the charts
