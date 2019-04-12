@@ -2,7 +2,7 @@
 Visualization for Heart data attributes 3-13
 Creates graph<number>.png files
 '''
-import os, sys, inspect
+import os, sys, inspect, sqlite3
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -12,12 +12,9 @@ CURR_DIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe(
 PARENT_DIR = os.path.dirname(CURR_DIR)
 sys.path.insert(0, PARENT_DIR)
 
-from database import *
-
-IMG_PATH = PARENT_DIR + '/Server/static/images/'
+IMG_PATH = PARENT_DIR + '/Submission/static/images/'
 
 class graph:
-
 
     def __init__(self, attr_num, db_conn):
         self.name = 'Graph_' + str(attr_num)
@@ -25,11 +22,14 @@ class graph:
 
 
     # Chest Pain Type
-    def create_plot_3(self):
+    def create_plot_3(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
         df = pd.read_sql_query('SELECT Age, Sex, Chest_Pain_Type FROM Heart;', conn)
+
+        #set male sex value to be less than 0 so results displayed correctly for each sex in graph
+        df['Sex'].values[(df['Sex'].values == 1)] = -1 
 
         ## Plot histograms male and female by type
 
@@ -73,7 +73,7 @@ class graph:
         
 
     # Resting Blood Pressure
-    def create_plot_4(self):
+    def create_plot_4(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -121,7 +121,7 @@ class graph:
 
 
     # Serum Cholesterol
-    def create_plot_5(self):
+    def create_plot_5(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -171,7 +171,7 @@ class graph:
 
 
     # Fasting Blood Sugar > 120
-    def create_plot_6(self):
+    def create_plot_6(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -230,11 +230,14 @@ class graph:
 
 
     # Resting ECG
-    def create_plot_7(self):
+    def create_plot_7(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
         df = pd.read_sql_query('SELECT Age, Sex, Resting_ECG FROM Heart;', conn)
+
+        #set male sex value to be less than 0 so results displayed correctly for each sex in graph
+        df['Sex'].values[(df['Sex'].values == 1)] = -1 
 
         ## Plot histograms male and female by type
 
@@ -276,7 +279,7 @@ class graph:
 
 
     # Max Heart Rate
-    def create_plot_8(self):
+    def create_plot_8(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -324,7 +327,7 @@ class graph:
 
 
     # Exercice Induced Angina
-    def create_plot_9(self):
+    def create_plot_9(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -382,8 +385,58 @@ class graph:
         plt.savefig(IMG_PATH + 'graph9.png')
 
 
+    # Oldpeak
+    def create_plot_10(self,db):
+
+        # Get data
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex, Oldpeak, FROM Heart;', conn)
+
+        # Divide into male and female
+        male_df = df.query('Sex == 1')
+        female_df = df.query('Sex == 0')
+
+        # Scatter plots
+        fig, axes = plt.subplots(nrows=1, ncols=2)
+        ax1 = sns.regplot(x=male_df['Age'], y=male_df['Oldpeak'], label='male', ax=axes[0])
+        ax2 = sns.regplot(x=female_df['Age'], y=female_df['Oldpeak'], label='female',
+                color='red', ax=axes[1])
+
+        # Format Plot
+
+        # Add titles
+        fig.suptitle('Oldpeak\n')
+        ax1.set_title('Male')
+        ax2.set_title('Female')
+        fig.text(x=0.54, y=0.04, horizontalalignment='center', s='Age', size=11)
+
+        # X-Axis
+        ax1.set_xlim(25,84)
+        ax2.set_xlim(25,84)
+        ax1.set_xticks(range(35, 84, 10))
+        ax2.set_xticks(range(35, 84, 10))
+        ax1.set_xlabel('')
+        ax2.set_xlabel('')
+
+        # Y-Axis
+        ax1.set_ylim(0,8)
+        ax2.set_ylim(0,8)
+        ax1.set_ylabel('Oldpeak')
+        ax2.set_ylabel('')
+        ax2.set_yticklabels('')
+
+        # Layout
+        fig.tight_layout()
+        fig.subplots_adjust(top=0.85, bottom=0.13)
+
+        # Save image
+        plt.savefig(IMG_PATH + 'graph10.png', bbox_inches='tight')
+
+
+
+
     # Slope
-    def create_plot_11(self):
+    def create_plot_11(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
@@ -442,11 +495,14 @@ class graph:
 
 
     # Number of Vessels Coloured by Fluroscopy
-    def create_plot_12(self):
+    def create_plot_12(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
         df = pd.read_sql_query('SELECT Age, Sex, Major_Vessels FROM Heart;', conn)
+
+        #set male sex value to be less than 0 so results displayed correctly for each sex in graph
+        df['Sex'].values[(df['Sex'].values == 1)] = -1 
 
         ## Plot histograms male and female by type
 
@@ -489,12 +545,15 @@ class graph:
 
 
     # Thalassemia
-    def create_plot_13(self):
+    def create_plot_13(self,db):
 
         # Get data
         conn = sqlite3.connect(db.database_name)
         df = pd.read_sql_query('SELECT Age, Sex, Thal FROM Heart;', conn)
 
+        #set male sex value to be less than 0 so results displayed correctly for each sex in graph
+        df['Sex'].values[(df['Sex'].values == 1)] = -1 
+        
         ## Plot histograms male and female by type
 
         sns.set_style("darkgrid")               # set the background of the charts
@@ -533,55 +592,3 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph13.png')
-
-
-# Main function to create each graph and save in /Server/static/images/
-if __name__ == '__main__':
-
-    # Connect to our graph instance of the database
-    db = server_database('graph_db.db')
-
-    # Create graphs and save files
-
-    # Chest pain type
-    g3 = graph(3, db)
-    g3.create_plot_3()
-
-    # Resting Blood Pressure
-    g4 = graph(4, db)
-    g4.create_plot_4()
-
-    # Serum Cholestrol
-    g5 = graph(5, db)
-    g5.create_plot_5()
-
-    # Fasting Blood Sugar
-    g6 = graph(6, db)
-    g6.create_plot_6()
-
-    # Resting ECG
-    g7 = graph(7, db)
-    g7.create_plot_7()
-
-    # Max Heart Rate
-    g8 = graph(8, db)
-    g8.create_plot_8()
-
-    # Exercise Induced Angina
-    g9 = graph(9, db)
-    g9.create_plot_9()
-
-    # Oldpeak
-
-
-    # Slope
-    g11 = graph(11,db)
-    g11.create_plot_11()
-
-    # Number Vessels Coloured by Flouroscopy
-    g12 = graph(12,db)
-    g12.create_plot_12()
-
-    # Thalassemia
-    g13 = graph(13, db)
-    g13.create_plot_13()
