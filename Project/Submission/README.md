@@ -22,25 +22,25 @@ This data contains the following attributes:
 ```
 1. Age
 2. Sex
-    - 1 = male; 0 = female
+     1 = male; 0 = female
 3. Chest Pain Type
-    - 1 = typical angina; 2 = atypical angina; 3 = non-anginal pain; 4 = asymptomatic
+     1 = typical angina; 2 = atypical angina; 3 = non-anginal pain; 4 = asymptomatic
 4. Resting Blood Pressure
 5. Serum Cholesterol (mg/dl)
 6. Fasting Blood Sugar > 120 mg/dl
-    - 0 = False; 1 = True
+     0 = False; 1 = True
 7. Resting Electrocardiographic Results
-    - 0 = normal; 1 = ST-T wave abnormality; 2 = probable ventricular hypertrophy
+     0 = normal; 1 = ST-T wave abnormality; 2 = probable ventricular hypertrophy
 8. Maximum Heart Rate (bpm)
 9. Exercise Induced Angina
-    - 0 = False; 1 = True
+     0 = False; 1 = True
 10. Oldpeak (ST depression induced by exercice relative to rest) (mV)
 11. Slope of the peak exercise ST segment
 12. Number of major vessels (0-3) coloured by flouroscopy
 13. Thalassemia
-    - 3 = normal; 6 = fixed defect; 7 = reversible defect
+     3 = normal; 6 = fixed defect; 7 = reversible defect
 14. Target (Heart Disease)
-    - 0 = False; 1 = True
+     0 = False; 1 = True
 ```
 
 Source: http://archive.ics.uci.edu/ml/datasets/heart+disease
