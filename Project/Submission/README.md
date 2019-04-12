@@ -26,10 +26,10 @@ This data contains the following attributes:
 4. Resting Blood Pressure
 5. Serum Cholesterol (mg/dl)
 6. Fasting Blood Sugar > 120 mg/dl (0 = False; 1 = True)
-7. Resting Electrocardiographic Results (0 = normal; 1 = ST-T wave abnormality; 2 = ventricular hypertrophy)
+7. Resting ECG Results (0 = normal; 1 = ST-T wave abnormality; 2 = probable ventricular hypertrophy)
 8. Maximum Heart Rate (bpm)
 9. Exercise Induced Angina (0 = False; 1 = True)
-10. Oldpeak (ST depression induced by exercice relative to rest) (mV)
+10. Oldpeak - ST depression induced by exercice relative to rest (mV)
 11. Slope of the peak exercise ST segment
 12. Number of major vessels (0-3) coloured by flouroscopy
 13. Thalassemia (3 = normal; 6 = fixed defect; 7 = reversible defect)
