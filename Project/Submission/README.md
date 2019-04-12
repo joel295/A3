@@ -2,7 +2,7 @@
 
 ### Group Project - Heart Disease
 
-This project was designed and built by
+This project was designed and built by:
 - Aiden Meikle - z5229381
 - Joel Lawrence - z3331029
 - Kaylen Payer - z5076219
