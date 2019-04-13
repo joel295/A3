@@ -71,16 +71,12 @@ def other(number=None):
         graph_name = helper.graph_dict[number]
     except (ValueError, KeyError):
         abort(404)
-    if not 3 <= number <= 13:
+    if not 3 <= number <= 17:
         abort(404)
     else:
         # Note: ensure the image is saved in /static/images, simply set a function to return the name of the image
         # associated
-        ''' 
-        Create a new function in server_helper to get the name of the graph
-        See the function Kaylen wrote for a guide
-        '''
-        my_image = helper.image_name_finder(number)
+        my_image = helper.labelled_image_name_finder(number)
         if not my_image:
             abort(404)
         else:

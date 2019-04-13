@@ -8,7 +8,7 @@ graph_dict = {1:'Age',2:'Sex',3:'Chest Pain Type',4:'Resting Blood Pressure',\
     5:'Serum Cholesterol',6:'Fasting Blood Sugar',7:'Resting ECG Results',\
         8:'Maximum Heart Rate', 9:'Exercise Induced Angina', 10:'Oldpeak',\
             11:'Peak Exercise ST Slope',12:'Major Vessels by Flouroscopy',\
-                13:'Thalassemia',14:'target'}
+                13:'Thalassemia',14:'target', 15:'3D - Max Heart Rate vs Serum Cholesterol', 17:'3D - Max Heart Rate vs Oldpeak'}
 
 def validate_result(result):
     ## check the values being used here
@@ -56,6 +56,16 @@ def image_name_finder(number):
     else:
         return False
     return image_name
+
+# as above, but for graphs by heart disease
+def labelled_image_name_finder(number = None):
+    print(number)
+    if (number != None):
+        image_name = 'graph' + str(number) + '_labelled'
+    else:
+        image_name = 'test'
+    return image_name
+
 
 def database_startup():
     db = database.server_database()
