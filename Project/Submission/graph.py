@@ -70,6 +70,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph3.png')
+        plt.close()
         
 
     # Resting Blood Pressure
@@ -118,6 +119,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph4.png')
+        plt.close()
 
 
     # Serum Cholesterol
@@ -168,6 +170,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph5.png')
+        plt.close()
 
 
     # Fasting Blood Sugar > 120
@@ -227,6 +230,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph6.png')
+        plt.close()
 
 
     # Resting ECG
@@ -276,6 +280,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph7.png')
+        plt.close()
 
 
     # Max Heart Rate
@@ -324,6 +329,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph8.png')
+        plt.close()
 
 
     # Exercice Induced Angina
@@ -383,6 +389,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph9.png')
+        plt.close()
 
 
     # Oldpeak
@@ -390,7 +397,7 @@ class graph:
 
         # Get data
         conn = sqlite3.connect(db.database_name)
-        df = pd.read_sql_query('SELECT Age, Sex, Oldpeak, FROM Heart;', conn)
+        df = pd.read_sql_query('SELECT Age, Sex, Oldpeak FROM Heart;', conn)
 
         # Divide into male and female
         male_df = df.query('Sex == 1')
@@ -431,6 +438,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph10.png', bbox_inches='tight')
+        plt.close()
 
 
 
@@ -492,6 +500,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph11.png')
+        plt.close()
 
 
     # Number of Vessels Coloured by Fluroscopy
@@ -542,6 +551,7 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph12.png')
+        plt.close()
 
 
     # Thalassemia
@@ -592,3 +602,4 @@ class graph:
 
         # Save image
         plt.savefig(IMG_PATH + 'graph13.png')
+        plt.close()
