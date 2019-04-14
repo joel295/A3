@@ -8,7 +8,9 @@ graph_dict = {1:'Age',2:'Sex',3:'Chest Pain Type',4:'Resting Blood Pressure',\
     5:'Serum Cholesterol',6:'Fasting Blood Sugar',7:'Resting ECG Results',\
         8:'Maximum Heart Rate', 9:'Exercise Induced Angina', 10:'Oldpeak',\
             11:'Peak Exercise ST Slope',12:'Major Vessels by Flouroscopy',\
-                13:'Thalassemia',14:'target', 15:'3D - Max Heart Rate vs Serum Cholesterol', 17:'3D - Max Heart Rate vs Oldpeak'}
+                13:'Thalassemia',14:'target', 15:'3D - Max Heart Rate vs Serum Cholesterol',\
+                    16:'2D - Max Heart Rate vs Serum Cholesterol', 17:'3D - Max Heart Rate vs Oldpeak',\
+                        18:'2D - Max Heart Rate vs Oldpeak'}
 
 def validate_result(result):
     ## check the values being used here

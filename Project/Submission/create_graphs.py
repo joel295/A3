@@ -85,8 +85,8 @@ def create_graphs(db):
     g10_lab.create_plot_10_labelled(db)
 
     # Slope
-    #g11_lab = gl.graph(11,db)
-    #g11_lab.create_plot_11(db)
+    g11_lab = gl.graph(11,db)
+    g11_lab.create_plot_11_labelled(db)
 
     # Number Vessels Coloured by Flouroscopy
     g12_lab = gl.graph(12,db)
@@ -99,8 +99,15 @@ def create_graphs(db):
     g15_lab = gl.graph(15,db)
     g15_lab.create_plot_15_labelled(db)
 
+    g16_lab = gl.graph(16,db)
+    g16_lab.create_plot_16_labelled(db)
+
     g17_lab = gl.graph(17,db)
     g17_lab.create_plot_17_labelled(db)
+
+    g18_lab = gl.graph(18,db)
+    g18_lab.create_plot_18_labelled(db)
+
 
 
 

@@ -71,7 +71,7 @@ def other(number=None):
         graph_name = helper.graph_dict[number]
     except (ValueError, KeyError):
         abort(404)
-    if not 3 <= number <= 17:
+    if not 3 <= number <= 18:
         abort(404)
     else:
         # Note: ensure the image is saved in /static/images, simply set a function to return the name of the image
@@ -83,5 +83,5 @@ def other(number=None):
             return render_template("extras.html", graph_name = graph_name, image_name = my_image)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
 

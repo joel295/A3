@@ -479,14 +479,7 @@ class graph:
         ax4.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
         ax4.set_ylabel('False')
         ax4.yaxis.set_label_position("right")
-        #fig.text(x=0.01, y=0.5, verticalalignment='center',s='Frequency', rotation=90, size=11)
-        #fig.text(x=0.45, y=0.05, horizontalalignment='center', s='Age Group', size=11)
 
-        # Layout
-        #fig.tight_layout()
-        #fig.subplots_adjust(top=0.85, left=0.1, bottom=0.2, right=0.8)
-
-        # Save image
         plt.savefig(IMG_PATH + 'graph9_labelled.png')
         plt.close()
 
@@ -519,7 +512,105 @@ class graph:
 
 
     # Slope
-    #def create_plot_11(self):
+    def create_plot_11_labelled(self,db):
+        # Get data
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex, Slope, Target FROM Heart;', conn)
+        # Divide data into male and female
+
+        sns.set_style('darkgrid')
+
+        male_df = df.query('Sex == 1')
+        male_df = male_df.drop('Sex', axis=1)
+
+        female_df = df.query('Sex == 0')
+        female_df = female_df.drop('Sex', axis=1)
+
+        male_df_Slope1 = male_df.query('Slope == 1')
+        male_df_Slope2 = male_df.query('Slope == 2')
+        male_df_Slope3 = male_df.query('Slope == 3')
+
+        female_df_Slope1 = female_df.query('Slope == 1')
+        female_df_Slope2 = female_df.query('Slope == 2')
+        female_df_Slope3 = female_df.query('Slope == 3')
+
+        
+
+        # Aggregate the number of true/false, grouped by age bracket
+
+        male_df_Slope1['count'] = 1
+        male_df_Slope1[''] = pd.cut(male_df_Slope1.Age, [20,30,40,50,60,70,80])
+        male_df_Slope1 = male_df_Slope1.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        male_df_Slope2['count'] = 1
+        male_df_Slope2[''] = pd.cut(male_df_Slope2.Age, [20,30,40,50,60,70,80])
+        male_df_Slope2 = male_df_Slope2.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        male_df_Slope3['count'] = 1
+        male_df_Slope3[''] = pd.cut(male_df_Slope3.Age, [20,30,40,50,60,70,80])
+        male_df_Slope3 = male_df_Slope3.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        female_df_Slope1['count'] = 1
+        female_df_Slope1[''] = pd.cut(female_df_Slope1.Age, [20,30,40,50,60,70,80])
+        female_df_Slope1 = female_df_Slope1.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        female_df_Slope2['count'] = 1
+        female_df_Slope2[''] = pd.cut(female_df_Slope2.Age, [20,30,40,50,60,70,80])
+        female_df_Slope2 = female_df_Slope2.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        female_df_Slope3['count'] = 1
+        female_df_Slope3[''] = pd.cut(female_df_Slope3.Age, [20,30,40,50,60,70,80])
+        female_df_Slope3 = female_df_Slope3.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        # Generate the subplots
+        fig, axes = plt.subplots(nrows=3, ncols=2)
+        ax1 = male_df_Slope1.plot.bar(stacked=True, ax=axes[0,0], rot=0, legend=False)
+        ax2 = female_df_Slope1.plot.bar(stacked=True, ax=axes[0,1], rot=0, legend=False)
+        ax3 = male_df_Slope2.plot.bar(stacked=True, ax=axes[1,0], rot=0, legend=False)
+        ax4 = female_df_Slope2.plot.bar(stacked=True, ax=axes[1,1], rot=0, legend=False)
+        ax5 = male_df_Slope3.plot.bar(stacked=True, ax=axes[2,0], rot=0, legend=False)
+        ax6 = female_df_Slope3.plot.bar(stacked=True, ax=axes[2,1], rot=0, legend=False)
+
+        ## Format Plot
+
+        # Titles
+        fig.suptitle('Slope')
+        ax1.set_title('Male')
+        ax2.set_title('Female')
+        
+
+        # Legend
+        fig.legend(title='Has Heart Disease?',labels =['No', 'Yes'])#loc = (0.93, 0.7) )#loc = (0.83, 0.7))
+
+        # Axes labels
+        ax1.set_yticks(range(0, 51, 10))
+        ax2.set_yticks(range(0, 51, 10))
+        ax2.set_yticklabels([])
+        ax2.set_ylabel('Slope = 1')
+        ax2.yaxis.set_label_position("right")
+
+        ax1.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax2.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax3.set_yticks(range(0, 51, 10))
+        ax4.set_yticks(range(0, 51, 10))
+        ax4.set_yticklabels([])
+        ax3.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax4.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax4.set_ylabel('Slope = 2')
+        ax4.yaxis.set_label_position("right")
+
+        ax5.set_yticks(range(0, 11, 2))
+        ax6.set_yticks(range(0, 11, 2))
+        ax6.set_yticklabels([])
+        ax5.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax6.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax6.set_ylabel('Slope = 3')
+        ax6.yaxis.set_label_position("right")
+
+
+        plt.savefig(IMG_PATH + 'graph11_labelled.png')
+        plt.close()
+
 
         
 
@@ -836,7 +927,7 @@ class graph:
 
     def create_plot_16_labelled(self, db):
         conn = sqlite3.connect(db.database_name)
-        df = pd.read_sql_query('SELECT Age, Sex, Chest_Pain_Type, Target FROM Heart;', conn)
+        df = pd.read_sql_query('SELECT Age, Sex,Max_Heart_Rate, Serum_Chol, Target FROM Heart;', conn)
         sns.set_style('darkgrid')
         df['Target'].values[df['Target'].values != 0] = 1
         df['Heart Disease?'] = df['Target'].map({1:'Yes', 0:'No'})
@@ -910,7 +1001,7 @@ class graph:
 
     def create_plot_18_labelled(self, db):
         conn = sqlite3.connect(db.database_name)
-        df = pd.read_sql_query('SELECT Age, Sex, Chest_Pain_Type, Target FROM Heart;', conn)
+        df = pd.read_sql_query('SELECT Age, Sex,Max_Heart_Rate, Oldpeak, Target FROM Heart;', conn)
 
         sns.set_style('darkgrid')
         df['Target'].values[df['Target'].values != 0] = 1
@@ -925,5 +1016,5 @@ class graph:
         g.axes[0,0].set_title("Male")
         g.axes[0,1].set_title("Female")
             
-        plt.savefig(IMG_PATH + 'graph_18_labelled.png')
+        plt.savefig(IMG_PATH + 'graph18_labelled.png')
     
