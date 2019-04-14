@@ -35,6 +35,10 @@ class Predictor():
     def loadData(self):
         try:
             database = server_database()
+            conn = sqlite3.connect(database.database_name)
+            database.delete_table()
+            database.create_table(conn)
+            database.import_data()
             data = database.load_all_rows()
             data = data.drop(['ID'], axis = 1)
         except Exception as e:

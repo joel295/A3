@@ -77,6 +77,20 @@ All requirements can be installed with the following command:
     - Graphs by Heart Disease - statistics for each attribute by heart disease
 ```
 
+#### Recreate Neural Network Model:
+```
+1. Import the 'predictor.py' module
+    $ import predictor as p
+
+2. Create an object using the Predictor Class
+    $ predictor = p.Predictor()
+
+3. Step 2 above automatically trains the neural network as part of the Object Initialization
+
+4. To predict a value, pass in a list of values with data being in the same order as the spec [age, sex,...,thal]
+    $ predictedValue, probabilitiesList = predictor.predict([attributeList])
+```
+
 #### Github Link:
 
 This project can be found at: https://github.com/joel295/A3
