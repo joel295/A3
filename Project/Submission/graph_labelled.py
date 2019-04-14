@@ -185,7 +185,91 @@ class graph:
         plt.savefig(IMG_PATH + 'graph5_labelled.png')
         plt.close()
 
-    #def create_plot_6(self)
+    #fasting blood sugar
+    def create_plot_6_labelled(self,db):
+        # Get data
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex, Fast_Blood_Sugar, Target FROM Heart;', conn)
+
+        # Divide data into male and female
+
+        sns.set_style('darkgrid')
+
+        male_df = df.query('Sex == 1')
+        male_df = male_df.drop('Sex', axis=1)
+
+        female_df = df.query('Sex == 0')
+        female_df = female_df.drop('Sex', axis=1)
+
+        male_df_fasted = male_df.query('Fast_Blood_Sugar == 1')
+        male_df_unfasted = male_df.query('Fast_Blood_Sugar == 0')
+
+        female_df_fasted = female_df.query('Fast_Blood_Sugar == 1')
+        female_df_unfasted = female_df.query('Fast_Blood_Sugar == 0')
+
+        # Aggregate the number of true/false, grouped by age bracket
+
+        male_df_fasted['count'] = 1
+        male_df_fasted[''] = pd.cut(male_df_fasted.Age, [20,30,40,50,60,70,80])
+        male_df_fasted = male_df_fasted.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        male_df_unfasted['count'] = 1
+        male_df_unfasted[''] = pd.cut(male_df_unfasted.Age, [20,30,40,50,60,70,80])
+        male_df_unfasted = male_df_unfasted.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        female_df_fasted['count'] = 1
+        female_df_fasted[''] = pd.cut(female_df_fasted.Age, [20,30,40,50,60,70,80])
+        female_df_fasted = female_df_fasted.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        female_df_unfasted['count'] = 1
+        female_df_unfasted[''] = pd.cut(female_df_unfasted.Age, [20,30,40,50,60,70,80])
+        female_df_unfasted = female_df_unfasted.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        # Generate the subplots
+        fig, axes = plt.subplots(nrows=2, ncols=2)
+        ax1 = male_df_fasted.plot.bar(stacked=True, ax=axes[0,0], rot=0, legend=False)
+        ax2 = female_df_fasted.plot.bar(stacked=True, ax=axes[0,1], rot=0, legend=False)
+        ax3 = male_df_unfasted.plot.bar(stacked=True, ax=axes[1,0], rot=45, legend=False)
+        ax4 = female_df_unfasted.plot.bar(stacked=True, ax=axes[1,1], rot=45, legend=False)
+
+        ## Format Plot
+
+        # Titles
+        fig.suptitle('Fasted Blood Sugar > 120 mg/dL')
+        ax1.set_title('Male')
+        ax2.set_title('Female')
+        
+
+        # Legend
+        fig.legend(title='Has Heart Disease?',labels =['No', 'Yes'] )#loc = (0.83, 0.7))
+
+        # Axes labels
+        ax1.set_yticks(range(0, 20, 2))
+        ax2.set_yticks(range(0, 20, 2))
+        ax2.set_yticklabels([])
+        ax2.set_ylabel('True')
+        ax2.yaxis.set_label_position("right")
+
+        ax1.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax2.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax3.set_yticks(range(0, 101, 10))
+        ax4.set_yticks(range(0, 101, 10))
+        ax4.set_yticklabels([])
+        ax3.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax4.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax4.set_ylabel('False')
+        ax4.yaxis.set_label_position("right")
+        #fig.text(x=0.01, y=0.5, verticalalignment='center',s='Frequency', rotation=90, size=11)
+        #fig.text(x=0.45, y=0.05, horizontalalignment='center', s='Age Group', size=11)
+
+        # Layout
+        #fig.tight_layout()
+        #fig.subplots_adjust(top=0.85, left=0.1, bottom=0.2, right=0.8)
+
+        # Save image
+        plt.savefig(IMG_PATH + 'graph6_labelled.png')
+        plt.close()
+
 
     # Resting ECG
     def create_plot_7_labelled(self, db):
@@ -322,7 +406,90 @@ class graph:
 
 
     # Exercice Induced Angina
-    #def create_plot_9(self):
+    def create_plot_9_labelled(self,db):
+
+        # Get data
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex, EI_Angina, Target FROM Heart;', conn)
+        # Divide data into male and female
+
+        sns.set_style('darkgrid')
+
+        male_df = df.query('Sex == 1')
+        male_df = male_df.drop('Sex', axis=1)
+
+        female_df = df.query('Sex == 0')
+        female_df = female_df.drop('Sex', axis=1)
+
+        male_df_EI = male_df.query('EI_Angina == 1')
+        male_df_NoEI = male_df.query('EI_Angina == 0')
+
+        female_df_EI = female_df.query('EI_Angina == 1')
+        female_df_NoEI = female_df.query('EI_Angina == 0')
+
+        # Aggregate the number of true/false, grouped by age bracket
+
+        male_df_EI['count'] = 1
+        male_df_EI[''] = pd.cut(male_df_EI.Age, [20,30,40,50,60,70,80])
+        male_df_EI = male_df_EI.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        male_df_NoEI['count'] = 1
+        male_df_NoEI[''] = pd.cut(male_df_NoEI.Age, [20,30,40,50,60,70,80])
+        male_df_NoEI = male_df_NoEI.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        female_df_EI['count'] = 1
+        female_df_EI[''] = pd.cut(female_df_EI.Age, [20,30,40,50,60,70,80])
+        female_df_EI = female_df_EI.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        female_df_NoEI['count'] = 1
+        female_df_NoEI[''] = pd.cut(female_df_NoEI.Age, [20,30,40,50,60,70,80])
+        female_df_NoEI = female_df_NoEI.pivot_table('count', index='', columns='Target', aggfunc='sum')
+
+        # Generate the subplots
+        fig, axes = plt.subplots(nrows=2, ncols=2)
+        ax1 = male_df_EI.plot.bar(stacked=True, ax=axes[0,0], rot=0, legend=False)
+        ax2 = female_df_EI.plot.bar(stacked=True, ax=axes[0,1], rot=0, legend=False)
+        ax3 = male_df_NoEI.plot.bar(stacked=True, ax=axes[1,0], rot=45, legend=False)
+        ax4 = female_df_NoEI.plot.bar(stacked=True, ax=axes[1,1], rot=45, legend=False)
+
+        ## Format Plot
+
+        # Titles
+        fig.suptitle('Exercise Induced Angina')
+        ax1.set_title('Male')
+        ax2.set_title('Female')
+        
+
+        # Legend
+        fig.legend(title='Has Heart Disease?',labels =['No', 'Yes'])#loc = (0.93, 0.7) )#loc = (0.83, 0.7))
+
+        # Axes labels
+        ax1.set_yticks(range(0, 60, 5))
+        ax2.set_yticks(range(0, 60, 5))
+        ax2.set_yticklabels([])
+        ax2.set_ylabel('True')
+        ax2.yaxis.set_label_position("right")
+
+        ax1.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax2.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax3.set_yticks(range(0, 60, 5))
+        ax4.set_yticks(range(0, 60, 5))
+        ax4.set_yticklabels([])
+        ax3.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax4.set_xticklabels(["21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "> 80"])
+        ax4.set_ylabel('False')
+        ax4.yaxis.set_label_position("right")
+        #fig.text(x=0.01, y=0.5, verticalalignment='center',s='Frequency', rotation=90, size=11)
+        #fig.text(x=0.45, y=0.05, horizontalalignment='center', s='Age Group', size=11)
+
+        # Layout
+        #fig.tight_layout()
+        #fig.subplots_adjust(top=0.85, left=0.1, bottom=0.2, right=0.8)
+
+        # Save image
+        plt.savefig(IMG_PATH + 'graph9_labelled.png')
+        plt.close()
+
 
 # Oldpeak
     def create_plot_10_labelled(self, db):
@@ -614,149 +781,149 @@ class graph:
 
 
     def create_plot_15_labelled(self, db):
-            conn = sqlite3.connect(db.database_name)
-            df = pd.read_sql_query('SELECT Age, Sex,Max_Heart_Rate, Serum_Chol,Target FROM Heart;', conn)
-            df['Target'].values[df['Target'].values != 0] = 1
-            sns.set_style("darkgrid")
-    
-            # Divide into male and female
-            male_df = df.query('Sex == 1')
-            female_df = df.query('Sex == 0')
-    
-            dis_df = male_df.query('Target ==1')
-            dis_free_df = male_df.query('Target==0')
-    
-            fig = plt.figure(figsize=plt.figaspect(0.5))
-    
-            
-            ax = fig.add_subplot(1, 2, 1, projection='3d')
-            ax.scatter3D(dis_df['Max_Heart_Rate'], dis_df['Serum_Chol'],dis_df['Age'], c='orange', label = 'Yes');
-            ax.scatter3D(dis_free_df['Max_Heart_Rate'], dis_free_df['Serum_Chol'],dis_free_df['Age'],  c='b', label='No');
-            ax.set_xlabel('Max Heart Rate (bpm)')
-            ax.set_ylabel('Serum Cholesterol (mg/dL)')
-            ax.set_zlabel('Age')
-            ax.set_title('Male')
-            ax.legend(title = "Heart Disease?",loc='upper left')
-            plt.subplots_adjust(top=0.9, left=0.05, bottom=0.1)
-            ax.set_xlim(60,220)
-            ax.set_ylim(100,600)
-            ax.set_zlim(25,84)
-            #ax.set_yticks(range(75, 225, 25))
-            ax.set_xticks(range(75, 225, 25))
-            ax.set_zticks(range(25, 80, 10))
-            
-    
-            ax = fig.add_subplot(1, 2, 2, projection='3d')
-            dis_df = female_df.query('Target==1')
-            dis_free_df = female_df.query('Target==0')
-    
-            ax.scatter3D(dis_df['Max_Heart_Rate'], dis_df['Serum_Chol'],dis_df['Age'], c='orange', label = 'Yes');
-            ax.scatter3D(dis_free_df['Max_Heart_Rate'], dis_free_df['Serum_Chol'],dis_free_df['Age'],  c='b', label='No');
-            ax.set_xlabel('Max Heart Rate (bpm)')
-            ax.set_ylabel('Serum Cholesterol (mg/dL)')
-            ax.set_zlabel('Age')
-            ax.set_title('Female')
-            ax.legend(title = "Heart Disease?",loc='upper left')
-            fig.suptitle('Max Heart Rate vs Serum Cholesterol vs Age')
-            ax.set_xlim(60,220)
-            ax.set_ylim(100,600)
-            ax.set_zlim(25,84)
-            #ax.set_yticks(range(75, 225, 25))
-            ax.set_xticks(range(75, 225, 25))
-            ax.set_zticks(range(25, 80, 10))
-            plt.savefig(IMG_PATH + 'graph15_labelled.png')
-            plt.close()
-    
-        def create_plot_16_labelled(self, db):
-            conn = sqlite3.connect(db.database_name)
-            df = pd.read_sql_query('SELECT Age, Sex, Chest_Pain_Type, Target FROM Heart;', conn)
-            sns.set_style('darkgrid')
-            df['Target'].values[df['Target'].values != 0] = 1
-            df['Heart Disease?'] = df['Target'].map({1:'Yes', 0:'No'})
-            df['Sex'] = df['Sex'].map({0:'Female', 1:'Male'})
-            
-            plt.figure()
-            g= sns.lmplot(data=df, x='Max_Heart_Rate', y='Serum_Chol',col='Sex', hue='Heart Disease?', palette=dict(Yes = 'orange', No='b'))
-            g.set(xlim=(60,220), ylim=(100,600))
-            plt.subplots_adjust(top=0.9, left=0.05, bottom=0.1)
-            g.fig.suptitle("Maximum Heart Rate vs Serum Cholesterol\n")
-            g.axes[0,0].set_title("Male")
-            g.axes[0,1].set_title("Female")
-            
-            plt.savefig(IMG_PATH + 'graph16_labelled.png')
-    
-    
-        def create_plot_17_labelled(self,db):
-            conn = sqlite3.connect(db.database_name)
-            df = pd.read_sql_query('SELECT Age, Sex,Max_Heart_Rate,Oldpeak,Target FROM Heart;', conn)
-            df['Target'].values[df['Target'].values != 0] = 1
-            
-            sns.set_style("darkgrid")
-    
-            # Divide into male and female
-            male_df = df.query('Sex == 1')
-            female_df = df.query('Sex == 0')
-    
-            dis_df = male_df.query('Target ==1')
-            dis_free_df = male_df.query('Target==0')
-    
-            fig = plt.figure(figsize=plt.figaspect(0.5))
-    
-            
-            ax = fig.add_subplot(1, 2, 1, projection='3d')
-            ax.scatter3D(dis_df['Max_Heart_Rate'], dis_df['Oldpeak'],dis_df['Age'], c='orange', label = 'Yes');
-            ax.scatter3D(dis_free_df['Max_Heart_Rate'], dis_free_df['Oldpeak'],dis_free_df['Age'],  c='b', label='No');
-            ax.set_xlabel('Max Heart Rate (bpm)')
-            ax.set_ylabel('Oldpeak')
-            ax.set_zlabel('Age')
-            ax.set_title('Male')
-            ax.legend(title = "Heart Disease?",loc='upper left')
-            plt.subplots_adjust(top=0.9, left=0.05, bottom=0.1)
-            ax.set_xlim(60,220)
-            ax.set_ylim(0,6)
-            ax.set_zlim(25,84)
-            #ax.set_yticks(range(75, 225, 25))
-            ax.set_xticks(range(75, 225, 25))
-            ax.set_zticks(range(25, 80, 10))
-            
-    
-            ax = fig.add_subplot(1, 2, 2, projection='3d')
-            dis_df = female_df.query('Target==1')
-            dis_free_df = female_df.query('Target==0')
-    
-            ax.scatter3D(dis_df['Max_Heart_Rate'], dis_df['Oldpeak'],dis_df['Age'], c='orange', label = 'Yes');
-            ax.scatter3D(dis_free_df['Max_Heart_Rate'], dis_free_df['Oldpeak'],dis_free_df['Age'],  c='b', label='No');
-            ax.set_xlabel('Max Heart Rate (bpm)')
-            ax.set_ylabel('Oldpeak')
-            ax.set_zlabel('Age')
-            ax.set_title('Female')
-            ax.legend(title = "Heart Disease?",loc='upper left')
-            fig.suptitle('Max Heart Rate vs Oldpeak vs Age')
-            ax.set_xlim(60,220)
-            ax.set_ylim(0,6)
-            ax.set_zlim(25,84)
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex,Max_Heart_Rate, Serum_Chol,Target FROM Heart;', conn)
+        df['Target'].values[df['Target'].values != 0] = 1
+        sns.set_style("darkgrid")
+
+        # Divide into male and female
+        male_df = df.query('Sex == 1')
+        female_df = df.query('Sex == 0')
+
+        dis_df = male_df.query('Target ==1')
+        dis_free_df = male_df.query('Target==0')
+
+        fig = plt.figure(figsize=plt.figaspect(0.5))
+
         
-            ax.set_xticks(range(75, 225, 25))
-            ax.set_zticks(range(25, 80, 10))
-            plt.savefig(IMG_PATH + 'graph17_labelled.png')
+        ax = fig.add_subplot(1, 2, 1, projection='3d')
+        ax.scatter3D(dis_df['Max_Heart_Rate'], dis_df['Serum_Chol'],dis_df['Age'], c='orange', label = 'Yes');
+        ax.scatter3D(dis_free_df['Max_Heart_Rate'], dis_free_df['Serum_Chol'],dis_free_df['Age'],  c='b', label='No');
+        ax.set_xlabel('Max Heart Rate (bpm)')
+        ax.set_ylabel('Serum Cholesterol (mg/dL)')
+        ax.set_zlabel('Age')
+        ax.set_title('Male')
+        ax.legend(title = "Heart Disease?",loc='upper left')
+        plt.subplots_adjust(top=0.9, left=0.05, bottom=0.1)
+        ax.set_xlim(60,220)
+        ax.set_ylim(100,600)
+        ax.set_zlim(25,84)
+        #ax.set_yticks(range(75, 225, 25))
+        ax.set_xticks(range(75, 225, 25))
+        ax.set_zticks(range(25, 80, 10))
+        
+
+        ax = fig.add_subplot(1, 2, 2, projection='3d')
+        dis_df = female_df.query('Target==1')
+        dis_free_df = female_df.query('Target==0')
+
+        ax.scatter3D(dis_df['Max_Heart_Rate'], dis_df['Serum_Chol'],dis_df['Age'], c='orange', label = 'Yes');
+        ax.scatter3D(dis_free_df['Max_Heart_Rate'], dis_free_df['Serum_Chol'],dis_free_df['Age'],  c='b', label='No');
+        ax.set_xlabel('Max Heart Rate (bpm)')
+        ax.set_ylabel('Serum Cholesterol (mg/dL)')
+        ax.set_zlabel('Age')
+        ax.set_title('Female')
+        ax.legend(title = "Heart Disease?",loc='upper left')
+        fig.suptitle('Max Heart Rate vs Serum Cholesterol vs Age')
+        ax.set_xlim(60,220)
+        ax.set_ylim(100,600)
+        ax.set_zlim(25,84)
+        #ax.set_yticks(range(75, 225, 25))
+        ax.set_xticks(range(75, 225, 25))
+        ax.set_zticks(range(25, 80, 10))
+        plt.savefig(IMG_PATH + 'graph15_labelled.png')
+        plt.close()
+
+    def create_plot_16_labelled(self, db):
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex, Chest_Pain_Type, Target FROM Heart;', conn)
+        sns.set_style('darkgrid')
+        df['Target'].values[df['Target'].values != 0] = 1
+        df['Heart Disease?'] = df['Target'].map({1:'Yes', 0:'No'})
+        df['Sex'] = df['Sex'].map({0:'Female', 1:'Male'})
+        
+        plt.figure()
+        g= sns.lmplot(data=df, x='Max_Heart_Rate', y='Serum_Chol',col='Sex', hue='Heart Disease?', palette=dict(Yes = 'orange', No='b'))
+        g.set(xlim=(60,220), ylim=(100,600))
+        plt.subplots_adjust(top=0.9, left=0.05, bottom=0.1)
+        g.fig.suptitle("Maximum Heart Rate vs Serum Cholesterol\n")
+        g.axes[0,0].set_title("Male")
+        g.axes[0,1].set_title("Female")
+        
+        plt.savefig(IMG_PATH + 'graph16_labelled.png')
+
+
+    def create_plot_17_labelled(self,db):
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex,Max_Heart_Rate,Oldpeak,Target FROM Heart;', conn)
+        df['Target'].values[df['Target'].values != 0] = 1
+        
+        sns.set_style("darkgrid")
+
+        # Divide into male and female
+        male_df = df.query('Sex == 1')
+        female_df = df.query('Sex == 0')
+
+        dis_df = male_df.query('Target ==1')
+        dis_free_df = male_df.query('Target==0')
+
+        fig = plt.figure(figsize=plt.figaspect(0.5))
+
+        
+        ax = fig.add_subplot(1, 2, 1, projection='3d')
+        ax.scatter3D(dis_df['Max_Heart_Rate'], dis_df['Oldpeak'],dis_df['Age'], c='orange', label = 'Yes');
+        ax.scatter3D(dis_free_df['Max_Heart_Rate'], dis_free_df['Oldpeak'],dis_free_df['Age'],  c='b', label='No');
+        ax.set_xlabel('Max Heart Rate (bpm)')
+        ax.set_ylabel('Oldpeak')
+        ax.set_zlabel('Age')
+        ax.set_title('Male')
+        ax.legend(title = "Heart Disease?",loc='upper left')
+        plt.subplots_adjust(top=0.9, left=0.05, bottom=0.1)
+        ax.set_xlim(60,220)
+        ax.set_ylim(0,6)
+        ax.set_zlim(25,84)
+        #ax.set_yticks(range(75, 225, 25))
+        ax.set_xticks(range(75, 225, 25))
+        ax.set_zticks(range(25, 80, 10))
+        
+
+        ax = fig.add_subplot(1, 2, 2, projection='3d')
+        dis_df = female_df.query('Target==1')
+        dis_free_df = female_df.query('Target==0')
+
+        ax.scatter3D(dis_df['Max_Heart_Rate'], dis_df['Oldpeak'],dis_df['Age'], c='orange', label = 'Yes');
+        ax.scatter3D(dis_free_df['Max_Heart_Rate'], dis_free_df['Oldpeak'],dis_free_df['Age'],  c='b', label='No');
+        ax.set_xlabel('Max Heart Rate (bpm)')
+        ax.set_ylabel('Oldpeak')
+        ax.set_zlabel('Age')
+        ax.set_title('Female')
+        ax.legend(title = "Heart Disease?",loc='upper left')
+        fig.suptitle('Max Heart Rate vs Oldpeak vs Age')
+        ax.set_xlim(60,220)
+        ax.set_ylim(0,6)
+        ax.set_zlim(25,84)
     
-    
-        def create_plot_18(self, db):
-            conn = sqlite3.connect(db.database_name)
-            df = pd.read_sql_query('SELECT Age, Sex, Chest_Pain_Type, Target FROM Heart;', conn)
-    
-            sns.set_style('darkgrid')
-            df['Target'].values[df['Target'].values != 0] = 1
-            df['Heart Disease?'] = df['Target'].map({1:'Yes', 0:'No'})
-            df['Sex'] = df['Sex'].map({0:'Female', 1:'Male'})
+        ax.set_xticks(range(75, 225, 25))
+        ax.set_zticks(range(25, 80, 10))
+        plt.savefig(IMG_PATH + 'graph17_labelled.png')
+
+
+    def create_plot_18_labelled(self, db):
+        conn = sqlite3.connect(db.database_name)
+        df = pd.read_sql_query('SELECT Age, Sex, Chest_Pain_Type, Target FROM Heart;', conn)
+
+        sns.set_style('darkgrid')
+        df['Target'].values[df['Target'].values != 0] = 1
+        df['Heart Disease?'] = df['Target'].map({1:'Yes', 0:'No'})
+        df['Sex'] = df['Sex'].map({0:'Female', 1:'Male'})
+        
+        plt.figure()
+        g= sns.lmplot(data=df,x='Max_Heart_Rate',y='Oldpeak',col='Sex', hue='Heart Disease?', palette=dict(Yes = 'orange', No='b'))
+        g.set(xlim=(60,220), ylim=(0,6))
+        plt.subplots_adjust(top=0.9, left=0.05, bottom=0.1)
+        g.fig.suptitle("Maximum Heart Rate vs Oldpeak\n")
+        g.axes[0,0].set_title("Male")
+        g.axes[0,1].set_title("Female")
             
-            plt.figure()
-            g= sns.lmplot(data=df,x='Max_Heart_Rate',y='Oldpeak',col='Sex', hue='Heart Disease?', palette=dict(Yes = 'orange', No='b'))
-            g.set(xlim=(60,220), ylim=(0,6))
-            plt.subplots_adjust(top=0.9, left=0.05, bottom=0.1)
-            g.fig.suptitle("Maximum Heart Rate vs Oldpeak\n")
-            g.axes[0,0].set_title("Male")
-            g.axes[0,1].set_title("Female")
-            
-            plt.savefig(IMG_PATH + 'graph_18_labelled.png')
+        plt.savefig(IMG_PATH + 'graph_18_labelled.png')
     

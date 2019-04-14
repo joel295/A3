@@ -65,8 +65,8 @@ def create_graphs(db):
     g5_lab.create_plot_5_labelled(db)
 
     # Fasting Blood Sugar
-    #g6_lab = gl.graph(6, db)
-    #g6_lab.create_plot_6(db)
+    g6_lab = gl.graph(6, db)
+    g6_lab.create_plot_6_labelled(db)
 
     # Resting ECG
     g7_lab = gl.graph(7, db)
@@ -77,8 +77,8 @@ def create_graphs(db):
     g8_lab.create_plot_8_labelled(db)
 
     # Exercise Induced Angina
-    #g9_lab = gl.graph(9, db)
-    #g9_lab.create_plot_9(db)
+    g9_lab = gl.graph(9, db)
+    g9_lab.create_plot_9_labelled(db)
 
     # Oldpeak
     g10_lab = gl.graph(10, db)
