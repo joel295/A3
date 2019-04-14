@@ -79,6 +79,13 @@ All requirements can be installed with the following command:
 
 #### Recreate Neural Network Model:
 ```
+The Neural Nerwork is created using PyTorch and the model is saved as 'neuralNetwork.pt'
+The Network has 3 Layers, 1 input and 1 output layer along with a Hidden Layer. There are 13 input nodes, 7 hidden nodes and 2 output Nodes (Yes/No for heart Disease Essentially).
+The Model Uses the ReLU activation function after the Hidden Layer and then LogSoftmax after the Output Layer. It also employs Stochastic Gradient Descent for optimizing the Weight Matrix and Negative Log Loss as the Loss Function.
+
+Note All the Following Commands are to be entered within an interactive Python 3 Environment:
+    $ python3
+
 1. Import the 'predictor.py' module
     $ import predictor as p
 
@@ -88,7 +95,7 @@ All requirements can be installed with the following command:
 3. Step 2 above automatically trains the neural network as part of the Object Initialization
 
 4. To predict a value, pass in a list of values with data being in the same order as the spec [age, sex,...,thal]
-    $ predictedValue, probabilitiesList = predictor.predict([attributeList])
+    $ predictedValue, probabilitiesList = predictor.nnPredict([attributeList])
 ```
 
 #### Github Link:
