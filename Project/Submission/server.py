@@ -71,6 +71,8 @@ def other(number=None):
         graph_name = helper.graph_dict[number]
     except (ValueError, KeyError):
         abort(404)
+    if number == 14:
+        abort(404)
     if not 3 <= number <= 18:
         abort(404)
     else:
